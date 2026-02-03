@@ -1,0 +1,29 @@
+[
+  {
+    "id": "1770062072121",
+    "name": "Jawad",
+    "category": "cafe",
+    "description": "testt",
+    "image": "/uploads/1770062072107-328666168.png",
+    "createdAt": "2026-02-02T19:54:32.121Z",
+    "updatedAt": "2026-02-02T19:54:32.122Z"
+  },
+  {
+    "id": "1770065341738",
+    "name": "Jawad",
+    "category": "restaurant",
+    "description": "فثسف",
+    "image": "/uploads/1770065341724-942841400.png",
+    "createdAt": "2026-02-02T20:49:01.738Z",
+    "updatedAt": "2026-02-02T20:49:01.738Z"
+  },
+  {
+    "id": "1770098519047",
+    "name": "testy",
+    "category": "restaurant",
+    "description": "test",
+    "image": "/uploads/1770098518991-729397163.png",
+    "createdAt": "2026-02-03T06:01:59.047Z",
+    "updatedAt": "2026-02-03T06:01:59.048Z"
+  }
+]

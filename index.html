@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PostMaker AI - مولد بوستات السوشيال ميديا بالذكاء الاصطناعي</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="animated-bg">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-wand-magic-sparkles"></i>
+                </div>
+                <div class="logo-text">
+                    <span class="logo-name">PostMaker</span>
+                    <span class="logo-badge">AI</span>
+                </div>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#how-it-works">كيف يعمل</a></li>
+                <li><a href="#features">المميزات</a></li>
+                <li><a href="#pricing">الأسعار</a></li>
+                <li><a href="#examples">أمثلة</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="create.html" class="btn btn-primary btn-glow">
+                    <i class="fas fa-plus"></i>
+                    إنشاء بوستر
+                </a>
+            </div>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge animate-float">
+                    <i class="fas fa-robot"></i>
+                    <span>مدعوم بالذكاء الاصطناعي</span>
+                    <div class="badge-pulse"></div>
+                </div>
+                
+                <h1 class="hero-title">
+                    صمم بوستر احترافي
+                    <span class="gradient-text">في ثوانٍ</span>
+                    بقوة الذكاء الاصطناعي
+                </h1>
+                
+                <p class="hero-subtitle">
+                    أنشئ تصاميم سوشيال ميديا مذهلة لنشاطك التجاري بدون أي خبرة في التصميم.
+                    الذكاء الاصطناعي يقوم بكل العمل نيابةً عنك.
+                </p>
+                
+                <div class="hero-cta">
+                    <a href="create.html" class="btn btn-primary btn-xl btn-glow">
+                        <i class="fas fa-wand-magic-sparkles"></i>
+                        ابدأ التصميم مجاناً
+                    </a>
+                    <a href="#how-it-works" class="btn btn-outline btn-xl">
+                        <i class="fas fa-play"></i>
+                        شاهد كيف يعمل
+                    </a>
+                </div>
+
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-icon"><i class="fas fa-image"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-number" data-count="10000">0</span>
+                            <span class="stat-label">بوستر تم إنشاؤه</span>
+                        </div>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <div class="stat-icon"><i class="fas fa-users"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-number" data-count="2500">0</span>
+                            <span class="stat-label">مستخدم نشط</span>
+                        </div>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <div class="stat-icon"><i class="fas fa-clock"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-number" data-count="30">0</span>
+                            <span class="stat-label">ثانية للتصميم</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-visual">
+                <div class="mockup-phone">
+                    <div class="phone-screen">
+                        <div class="poster-mockup">
+                            <div class="mockup-header"></div>
+                            <div class="mockup-image"></div>
+                            <div class="mockup-text"></div>
+                            <div class="mockup-price"></div>
+                            <div class="mockup-btn"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="floating-elements">
+                    <div class="float-item float-1"><i class="fas fa-star"></i></div>
+                    <div class="float-item float-2"><i class="fas fa-heart"></i></div>
+                    <div class="float-item float-3"><i class="fas fa-fire"></i></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">كيف يعمل</span>
+                <h2 class="section-title">ثلاث خطوات بسيطة</h2>
+                <p class="section-subtitle">الذكاء الاصطناعي يتولى كل التفاصيل المعقدة</p>
+            </div>
+
+            <div class="steps-timeline">
+                <div class="step-card" data-step="1">
+                    <div class="step-number">01</div>
+                    <div class="step-icon">
+                        <i class="fas fa-list-check"></i>
+                    </div>
+                    <h3>اختر نوع النشاط</h3>
+                    <p>حدد مجال عملك: مطعم، متجر، خدمات، أو غيرها</p>
+                </div>
+                
+                <div class="step-connector">
+                    <svg viewBox="0 0 100 20">
+                        <path d="M0,10 Q50,10 100,10" stroke="url(#gradient)" stroke-width="2" fill="none" stroke-dasharray="5,5"/>
+                        <defs>
+                            <linearGradient id="gradient">
+                                <stop offset="0%" stop-color="#8B5CF6"/>
+                                <stop offset="100%" stop-color="#06B6D4"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+                
+                <div class="step-card" data-step="2">
+                    <div class="step-number">02</div>
+                    <div class="step-icon">
+                        <i class="fas fa-keyboard"></i>
+                    </div>
+                    <h3>أدخل بياناتك</h3>
+                    <p>اسم النشاط، العرض، السعر، ورقم التواصل</p>
+                </div>
+                
+                <div class="step-connector">
+                    <svg viewBox="0 0 100 20">
+                        <path d="M0,10 Q50,10 100,10" stroke="url(#gradient)" stroke-width="2" fill="none" stroke-dasharray="5,5"/>
+                    </svg>
+                </div>
+                
+                <div class="step-card featured" data-step="3">
+                    <div class="step-number">03</div>
+                    <div class="step-icon ai">
+                        <i class="fas fa-wand-magic-sparkles"></i>
+                        <div class="ai-glow"></div>
+                    </div>
+                    <h3>الذكاء الاصطناعي يصمم</h3>
+                    <p>احصل على تصاميم احترافية جاهزة للنشر</p>
+                    <div class="step-badge">سحر AI</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="categories" id="categories">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">الفئات</span>
+                <h2 class="section-title">لكل نشاط تجاري</h2>
+                <p class="section-subtitle">قوالب مخصصة ومحسّنة لكل مجال</p>
+            </div>
+
+            <div class="categories-grid">
+                <a href="create.html?category=restaurant" class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <div class="category-content">
+                        <h3>مطاعم وكافيهات</h3>
+                        <p>قوائم طعام، عروض وجبات، توصيل</p>
+                        <span class="category-count">15+ قالب</span>
+                    </div>
+                    <div class="category-arrow">
+                        <i class="fas fa-arrow-left"></i>
+                    </div>
+                </a>
+
+                <a href="create.html?category=supermarket" class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <div class="category-content">
+                        <h3>سوبر ماركت</h3>
+                        <p>عروض يومية، تخفيضات، منتجات</p>
+                        <span class="category-count">12+ قالب</span>
+                    </div>
+                    <div class="category-arrow">
+                        <i class="fas fa-arrow-left"></i>
+                    </div>
+                </a>
+
+                <a href="create.html?category=online" class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-store"></i>
+                    </div>
+                    <div class="category-content">
+                        <h3>متاجر إلكترونية</h3>
+                        <p>منتجات، تخفيضات، وصول جديد</p>
+                        <span class="category-count">10+ قالب</span>
+                    </div>
+                    <div class="category-arrow">
+                        <i class="fas fa-arrow-left"></i>
+                    </div>
+                </a>
+
+                <a href="create.html?category=services" class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <div class="category-content">
+                        <h3>خدمات</h3>
+                        <p>صيانة، تنظيف، استشارات</p>
+                        <span class="category-count">8+ قالب</span>
+                    </div>
+                    <div class="category-arrow">
+                        <i class="fas fa-arrow-left"></i>
+                    </div>
+                </a>
+
+                <a href="create.html?category=fashion" class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-shirt"></i>
+                    </div>
+                    <div class="category-content">
+                        <h3>أزياء وموضة</h3>
+                        <p>ملابس، إكسسوارات، أحذية</p>
+                        <span class="category-count">10+ قالب</span>
+                    </div>
+                    <div class="category-arrow">
+                        <i class="fas fa-arrow-left"></i>
+                    </div>
+                </a>
+
+                <a href="create.html?category=beauty" class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-spa"></i>
+                    </div>
+                    <div class="category-content">
+                        <h3>تجميل وعناية</h3>
+                        <p>صالونات، سبا، مستحضرات</p>
+                        <span class="category-count">8+ قالب</span>
+                    </div>
+                    <div class="category-arrow">
+                        <i class="fas fa-arrow-left"></i>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">المميزات</span>
+                <h2 class="section-title">لماذا PostMaker AI؟</h2>
+                <p class="section-subtitle">تقنيات متقدمة لتصاميم احترافية</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>ذكاء اصطناعي متقدم</h3>
+                    <p>يفهم نشاطك ويختار أفضل التصاميم والألوان تلقائياً</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>سرعة فائقة</h3>
+                    <p>احصل على تصميمك الاحترافي في أقل من 30 ثانية</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <h3><span id="templateCount">50+</span> قالب احترافي</h3>
+                    <p>قوالب مصممة بواسطة خبراء لكل نوع نشاط</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-language"></i>
+                    </div>
+                    <h3>عربي وإنجليزي</h3>
+                    <p>دعم كامل للغة العربية مع خطوط احترافية</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fab fa-whatsapp"></i>
+                    </div>
+                    <h3>تكامل واتساب</h3>
+                    <p>زر واتساب مدمج في كل تصميم للتواصل السريع</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-download"></i>
+                    </div>
+                    <h3>تحميل HD</h3>
+                    <p>صور عالية الجودة جاهزة للنشر على جميع المنصات</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Templates Showcase Section -->
+    <section class="templates-showcase" id="examples">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">القوالب</span>
+                <h2 class="section-title">استعرض القوالب المتاحة</h2>
+                <p class="section-subtitle">قوالب احترافية جاهزة للاستخدام</p>
+            </div>
+
+            <div id="templatesShowcaseGrid" class="templates-showcase-grid">
+                <div class="loading-templates-showcase">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>جاري تحميل القوالب...</p>
+                </div>
+            </div>
+
+            <div class="templates-cta">
+                <a href="create.html" class="btn btn-primary btn-lg btn-glow">
+                    <i class="fas fa-plus"></i>
+                    ابدأ التصميم الآن
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">الأسعار</span>
+                <h2 class="section-title">خطط تناسب الجميع</h2>
+                <p class="section-subtitle">ابدأ مجاناً وارتقِ عندما تحتاج</p>
+            </div>
+
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>مجاني</h3>
+                        <div class="pricing-price">
+                            <span class="price-amount">0</span>
+                            <span class="price-currency">ريال</span>
+                        </div>
+                        <p>للتجربة والبداية</p>
+                    </div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> 5 تصميمات يومياً</li>
+                        <li><i class="fas fa-check"></i> قوالب أساسية</li>
+                        <li><i class="fas fa-check"></i> تحميل بجودة متوسطة</li>
+                        <li class="disabled"><i class="fas fa-times"></i> علامة مائية</li>
+                        <li class="disabled"><i class="fas fa-times"></i> دعم فني</li>
+                    </ul>
+                    <a href="create.html" class="btn btn-outline btn-block">ابدأ مجاناً</a>
+                </div>
+
+                <div class="pricing-card featured">
+                    <div class="pricing-badge">الأكثر شعبية</div>
+                    <div class="pricing-header">
+                        <h3>احترافي</h3>
+                        <div class="pricing-price">
+                            <span class="price-amount">19</span>
+                            <span class="price-currency">ريال/شهر</span>
+                        </div>
+                        <p>للأعمال النشطة</p>
+                    </div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> تصميمات غير محدودة</li>
+                        <li><i class="fas fa-check"></i> جميع القوالب</li>
+                        <li><i class="fas fa-check"></i> تحميل HD</li>
+                        <li><i class="fas fa-check"></i> بدون علامة مائية</li>
+                        <li><i class="fas fa-check"></i> دعم واتساب</li>
+                    </ul>
+                    <a href="#" class="btn btn-primary btn-block btn-glow">اشترك الآن</a>
+                </div>
+
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>سنوي</h3>
+                        <div class="pricing-price">
+                            <span class="price-amount">149</span>
+                            <span class="price-currency">ريال/سنة</span>
+                        </div>
+                        <p>وفّر 35%</p>
+                    </div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> كل مميزات الاحترافي</li>
+                        <li><i class="fas fa-check"></i> قوالب حصرية</li>
+                        <li><i class="fas fa-check"></i> أولوية الدعم</li>
+                        <li><i class="fas fa-check"></i> تحديثات مجانية</li>
+                        <li><i class="fas fa-check"></i> API Access</li>
+                    </ul>
+                    <a href="#" class="btn btn-outline btn-block">اشترك الآن</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>جاهز لإنشاء أول بوستر؟</h2>
+                <p>انضم لآلاف التجار الذين يصممون بوستراتهم بالذكاء الاصطناعي</p>
+                <a href="create.html" class="btn btn-white btn-xl">
+                    <i class="fas fa-rocket"></i>
+                    ابدأ الآن مجاناً
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <div class="logo-icon">
+                            <i class="fas fa-wand-magic-sparkles"></i>
+                        </div>
+                        <div class="logo-text">
+                            <span class="logo-name">PostMaker</span>
+                            <span class="logo-badge">AI</span>
+                        </div>
+                    </a>
+                    <p>أداة الذكاء الاصطناعي لتصميم بوستات السوشيال ميديا الاحترافية</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#"><i class="fab fa-tiktok"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-links">
+                    <h4>روابط سريعة</h4>
+                    <ul>
+                        <li><a href="create.html">إنشاء بوستر</a></li>
+                        <li><a href="#features">المميزات</a></li>
+                        <li><a href="#pricing">الأسعار</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-links">
+                    <h4>الدعم</h4>
+                    <ul>
+                        <li><a href="#">الأسئلة الشائعة</a></li>
+                        <li><a href="#">تواصل معنا</a></li>
+                        <li><a href="#">دليل الاستخدام</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-links">
+                    <h4>قانوني</h4>
+                    <ul>
+                        <li><a href="#">سياسة الخصوصية</a></li>
+                        <li><a href="#">شروط الاستخدام</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>© 2026 PostMaker AI. جميع الحقوق محفوظة.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/api-service.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إنشاء بوستر - PostMaker AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/create.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
+</head>
+<body class="create-page">
+    <!-- Animated Background -->
+    <div class="animated-bg">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+    </div>
+
+    <!-- Main Create Section -->
+    <main class="create-main create-main-fullscreen">
+        <!-- Back to Home Button -->
+        <a href="index.html" class="back-home-btn">
+            <i class="fas fa-home"></i>
+            <span>الرئيسية</span>
+        </a>
+        
+        <div class="container">
+            <div class="create-wrapper">
+                <!-- Main Form Card -->
+                <div class="form-section">
+                    <!-- Progress Bar -->
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+
+                    <div class="form-content">
+                        <!-- Step 1: Category Selection -->
+                        <div class="form-step active" id="step1">
+                        <div class="step-header">
+                            <span class="step-indicator">الخطوة 1 من 3</span>
+                            <h2>اختر نوع نشاطك</h2>
+                            <p>حدد المجال لنقدم لك أفضل القوالب</p>
+                        </div>
+
+                        <div class="category-selection">
+                            <label class="category-option">
+                                <input type="radio" name="category" value="restaurant">
+                                <div class="option-content">
+                                    <div class="option-icon"><i class="fas fa-utensils"></i></div>
+                                    <div class="option-info">
+                                        <h4>مطاعم وكافيهات</h4>
+                                        <span>15 قالب</span>
+                                    </div>
+                                </div>
+                            </label>
+
+                            <label class="category-option">
+                                <input type="radio" name="category" value="supermarket">
+                                <div class="option-content">
+                                    <div class="option-icon"><i class="fas fa-shopping-cart"></i></div>
+                                    <div class="option-info">
+                                        <h4>سوبر ماركت</h4>
+                                        <span>12 قالب</span>
+                                    </div>
+                                </div>
+                            </label>
+
+                            <label class="category-option">
+                                <input type="radio" name="category" value="online">
+                                <div class="option-content">
+                                    <div class="option-icon"><i class="fas fa-store"></i></div>
+                                    <div class="option-info">
+                                        <h4>متاجر إلكترونية</h4>
+                                        <span>10 قوالب</span>
+                                    </div>
+                                </div>
+                            </label>
+
+                            <label class="category-option">
+                                <input type="radio" name="category" value="services">
+                                <div class="option-content">
+                                    <div class="option-icon"><i class="fas fa-briefcase"></i></div>
+                                    <div class="option-info">
+                                        <h4>خدمات</h4>
+                                        <span>8 قوالب</span>
+                                    </div>
+                                </div>
+                            </label>
+
+                            <label class="category-option">
+                                <input type="radio" name="category" value="fashion">
+                                <div class="option-content">
+                                    <div class="option-icon"><i class="fas fa-shirt"></i></div>
+                                    <div class="option-info">
+                                        <h4>أزياء وموضة</h4>
+                                        <span>10 قوالب</span>
+                                    </div>
+                                </div>
+                            </label>
+
+                            <label class="category-option">
+                                <input type="radio" name="category" value="beauty">
+                                <div class="option-content">
+                                    <div class="option-icon"><i class="fas fa-spa"></i></div>
+                                    <div class="option-info">
+                                        <h4>تجميل وعناية</h4>
+                                        <span>8 قوالب</span>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+
+                        <div class="step-actions">
+                            <button type="button" class="btn btn-primary btn-lg btn-next" data-next="2" disabled>
+                                التالي
+                                <i class="fas fa-arrow-left"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Template Selection -->
+                    <div class="form-step" id="step2">
+                        <div class="step-header">
+                            <span class="step-indicator">الخطوة 2 من 4</span>
+                            <h2>اختر قالب التصميم</h2>
+                            <p>اختر القالب الذي يناسب علامتك التجارية</p>
+                        </div>
+
+                        <div id="templatesContainer" class="templates-grid">
+                            <div class="loading-templates-step">
+                                <i class="fas fa-spinner fa-spin"></i>
+                                <p>جاري تحميل القوالب...</p>
+                            </div>
+                        </div>
+
+                        <div class="step-actions">
+                            <button type="button" class="btn btn-outline btn-lg" data-prev="1">
+                                <i class="fas fa-arrow-right"></i>
+                                السابق
+                            </button>
+                            <button type="button" class="btn btn-primary btn-lg btn-next" data-next="3" disabled>
+                                التالي
+                                <i class="fas fa-arrow-left"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Data Entry -->
+                    <div class="form-step" id="step3">
+                        <div class="step-header">
+                            <span class="step-indicator">الخطوة 3 من 4</span>
+                            <h2>أدخل بيانات العرض</h2>
+                            <p>املأ المعلومات ليقوم الذكاء الاصطناعي بالتصميم</p>
+                        </div>
+
+                        <form id="posterDataForm">
+                            <div class="form-grid">
+                                <div class="form-group full-width">
+                                    <label>
+                                        <i class="fas fa-store"></i>
+                                        اسم النشاط / المحل
+                                    </label>
+                                    <input type="text" id="businessName" placeholder="مثال: مطعم الشيف الذهبي" required>
+                                </div>
+
+                                <div class="form-group full-width">
+                                    <label>
+                                        <i class="fas fa-tag"></i>
+                                        اسم المنتج / الخدمة
+                                    </label>
+                                    <input type="text" id="productName" placeholder="مثال: برجر لحم أنجوس">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>
+                                        <i class="fas fa-dollar-sign"></i>
+                                        السعر الأصلي (اختياري)
+                                    </label>
+                                    <input type="text" id="originalPrice" placeholder="50 ريال">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>
+                                        <i class="fas fa-fire"></i>
+                                        سعر العرض
+                                    </label>
+                                    <input type="text" id="offerPrice" placeholder="35 ريال" required>
+                                </div>
+
+                                <div class="form-group full-width">
+                                    <label>
+                                        <i class="fas fa-bullhorn"></i>
+                                        نص العرض
+                                    </label>
+                                    <select id="offerText">
+                                        <option value="عرض لفترة محدودة">عرض لفترة محدودة</option>
+                                        <option value="وفر في مشترياتك">وفر في مشترياتك</option>
+                                        <option value="خصم خاص">خصم خاص</option>
+                                        <option value="عرض حصري">عرض حصري</option>
+                                        <option value="اشتري الآن">اشتري الآن</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group full-width">
+                                    <label>
+                                        <i class="fab fa-whatsapp"></i>
+                                        رقم الواتساب
+                                    </label>
+                                    <input type="tel" id="whatsapp" placeholder="+966xxxxxxxxxx" dir="ltr">
+                                </div>
+
+                                <div class="form-group full-width">
+                                    <label>
+                                        <i class="fas fa-image"></i>
+                                        صورة المنتج (اختياري)
+                                    </label>
+                                    <div class="upload-zone" id="uploadZone">
+                                        <input type="file" id="productImage" accept="image/*">
+                                        <div class="upload-icon">
+                                            <i class="fas fa-cloud-upload-alt"></i>
+                                        </div>
+                                        <h4>اضغط لرفع صورة</h4>
+                                        <p>أو اسحب الملف هنا</p>
+                                        <small>PNG, JPG, WEBP - حتى 5MB</small>
+                                    </div>
+                                    <div class="image-preview" id="imagePreview">
+                                        <img id="previewImg" src="" alt="Preview">
+                                        <button type="button" class="remove-image" id="removeImage">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                        <div class="step-actions">
+                            <button type="button" class="btn btn-outline btn-lg" data-prev="2">
+                                <i class="fas fa-arrow-right"></i>
+                                السابق
+                            </button>
+                            <button type="button" class="btn btn-primary btn-lg btn-next" data-next="4">
+                                التالي
+                                <i class="fas fa-arrow-left"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Customization -->
+                    <div class="form-step" id="step4">
+                        <div class="step-header">
+                            <span class="step-indicator">الخطوة 4 من 4</span>
+                            <h2>خصص التصميم</h2>
+                            <p>اختر الألوان والحجم المناسب</p>
+                        </div>
+
+                        <!-- Customization Layout with Preview -->
+                        <div class="customization-layout">
+                            <!-- Left Side: Canvas Preview -->
+                            <div class="customize-preview-panel">
+                                <div class="preview-sticky">
+                                    <div class="preview-header-mini">
+                                        <h3>معاينة مباشرة</h3>
+                                        <span class="preview-badge-mini">
+                                            <i class="fas fa-eye"></i>
+                                            تحديث تلقائي
+                                        </span>
+                                    </div>
+                                    <div class="preview-canvas-container">
+                                        <canvas id="posterCanvas"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Right Side: Customization Options -->
+                            <div class="customize-options-wrapper">
+                                <div class="customize-options">
+                                    <!-- Template Info -->
+                                    <div class="option-group" id="templateInfoBox" style="display: none;">
+                                        <label class="group-label">
+                                            <i class="fas fa-layer-group"></i>
+                                            القالب المستخدم
+                                        </label>
+                                        <div class="template-info-display">
+                                            <img id="selectedTemplateThumb" src="" alt="" style="width: 80px; height: 80px; object-fit: cover; border-radius: 12px; margin-left: 15px;">
+                                            <div style="flex: 1;">
+                                                <h4 id="selectedTemplateName" style="font-size: 16px; margin: 0 0 5px 0;"></h4>
+                                                <p id="selectedTemplateDesc" style="font-size: 13px; color: #6B7280; margin: 0;"></p>
+                                            </div>
+                                    <button type="button" class="btn btn-outline btn-sm" onclick="changeTemplate()">
+                                        <i class="fas fa-exchange-alt"></i>
+                                        تغيير
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Layout Controls -->
+                            <div class="option-group">
+                                <label class="group-label">
+                                    <i class="fas fa-sliders-h"></i>
+                                    تخصيص التخطيط
+                                </label>
+                                <div class="layout-controls">
+                                    <div class="control-item">
+                                        <label>موضع العنوان (Y)</label>
+                                        <input type="range" id="titlePositionY" min="0.05" max="0.3" value="0.15" step="0.01">
+                                        <span class="value-display" id="titlePositionYValue">15%</span>
+                                    </div>
+                                    <div class="control-item">
+                                        <label>موضع العنوان (X)</label>
+                                        <input type="range" id="titlePositionX" min="0.1" max="0.9" value="0.5" step="0.01">
+                                        <span class="value-display" id="titlePositionXValue">50%</span>
+                                    </div>
+                                    <div class="control-item">
+                                        <label>حجم العنوان</label>
+                                        <input type="range" id="titleSize" min="30" max="80" value="56" step="2">
+                                        <span class="value-display" id="titleSizeValue">56px</span>
+                                    </div>
+                                    <div class="control-item">
+                                        <label>موضع الصورة (Y)</label>
+                                        <input type="range" id="imagePositionY" min="0.25" max="0.65" value="0.48" step="0.01">
+                                        <span class="value-display" id="imagePositionYValue">48%</span>
+                                    </div>
+                                    <div class="control-item">
+                                        <label>موضع الصورة (X)</label>
+                                        <input type="range" id="imagePositionX" min="0.1" max="0.9" value="0.5" step="0.01">
+                                        <span class="value-display" id="imagePositionXValue">50%</span>
+                                    </div>
+                                    <div class="control-item">
+                                        <label>حجم الصورة</label>
+                                        <input type="range" id="imageScale" min="0.2" max="0.6" value="0.38" step="0.02">
+                                        <span class="value-display" id="imageScaleValue">38%</span>
+                                    </div>
+                                    <div class="control-item">
+                                        <label>موضع السعر (Y)</label>
+                                        <input type="range" id="pricePositionY" min="0.5" max="0.85" value="0.72" step="0.01">
+                                        <span class="value-display" id="pricePositionYValue">72%</span>
+                                    </div>
+                                    <div class="control-item">
+                                        <label>موضع السعر (X)</label>
+                                        <input type="range" id="pricePositionX" min="0.1" max="0.9" value="0.5" step="0.01">
+                                        <span class="value-display" id="pricePositionXValue">50%</span>
+                                    </div>
+                                    <div class="control-item">
+                                        <label>حجم السعر</label>
+                                        <input type="range" id="priceSize" min="40" max="70" value="52" step="2">
+                                        <span class="value-display" id="priceSizeValue">52px</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Size Selection -->
+                            <div class="option-group">
+                                <label class="group-label">
+                                    <i class="fas fa-expand"></i>
+                                    حجم البوستر
+                                </label>
+                                <div class="size-options">
+                                    <label class="size-option">
+                                        <input type="radio" name="size" value="instagram-post" checked>
+                                        <div class="size-preview square">
+                                            <i class="fab fa-instagram"></i>
+                                        </div>
+                                        <span>انستقرام بوست</span>
+                                        <small>1080x1080</small>
+                                    </label>
+                                    <label class="size-option">
+                                        <input type="radio" name="size" value="instagram-story">
+                                        <div class="size-preview story">
+                                            <i class="fab fa-instagram"></i>
+                                        </div>
+                                        <span>انستقرام ستوري</span>
+                                        <small>1080x1920</small>
+                                    </label>
+                                    <label class="size-option">
+                                        <input type="radio" name="size" value="facebook-post">
+                                        <div class="size-preview facebook">
+                                            <i class="fab fa-facebook"></i>
+                                        </div>
+                                        <span>فيسبوك بوست</span>
+                                        <small>1200x630</small>
+                                    </label>
+                                    <label class="size-option">
+                                        <input type="radio" name="size" value="twitter-post">
+                                        <div class="size-preview twitter">
+                                            <i class="fab fa-twitter"></i>
+                                        </div>
+                                        <span>تويتر بوست</span>
+                                        <small>1200x675</small>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Color Selection -->
+                            <div class="option-group">
+                                <label class="group-label">
+                                    <i class="fas fa-palette"></i>
+                                    اللون الرئيسي
+                                </label>
+                                <div class="color-options">
+                                    <label class="color-option">
+                                        <input type="radio" name="color" value="#8B5CF6" checked>
+                                        <span class="color-swatch" style="background: #8B5CF6"></span>
+                                    </label>
+                                    <label class="color-option">
+                                        <input type="radio" name="color" value="#EF4444">
+                                        <span class="color-swatch" style="background: #EF4444"></span>
+                                    </label>
+                                    <label class="color-option">
+                                        <input type="radio" name="color" value="#F59E0B">
+                                        <span class="color-swatch" style="background: #F59E0B"></span>
+                                    </label>
+                                    <label class="color-option">
+                                        <input type="radio" name="color" value="#10B981">
+                                        <span class="color-swatch" style="background: #10B981"></span>
+                                    </label>
+                                    <label class="color-option">
+                                        <input type="radio" name="color" value="#3B82F6">
+                                        <span class="color-swatch" style="background: #3B82F6"></span>
+                                    </label>
+                                    <label class="color-option">
+                                        <input type="radio" name="color" value="#EC4899">
+                                        <span class="color-swatch" style="background: #EC4899"></span>
+                                    </label>
+                                    <label class="color-option">
+                                        <input type="radio" name="color" value="#1F2937">
+                                        <span class="color-swatch" style="background: #1F2937"></span>
+                                    </label>
+                                    <label class="color-option custom">
+                                        <input type="color" name="customColor" id="customColor" value="#8B5CF6">
+                                        <span class="color-swatch custom-swatch">
+                                            <i class="fas fa-plus"></i>
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- CTA Text -->
+                            <div class="option-group">
+                                <label class="group-label">
+                                    <i class="fas fa-hand-pointer"></i>
+                                    نص الزر
+                                </label>
+                                <select id="ctaText" class="styled-select">
+                                    <option value="اطلب الآن">اطلب الآن</option>
+                                    <option value="تواصل معنا">تواصل معنا</option>
+                                    <option value="احجز الآن">احجز الآن</option>
+                                    <option value="اشتري الآن">اشتري الآن</option>
+                                    <option value="زورنا">زورنا</option>
+                                </select>
+                            </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="step-actions">
+                            <button type="button" class="btn btn-ghost btn-back" data-back="2">
+                                <i class="fas fa-arrow-right"></i>
+                                السابق
+                            </button>
+                            <button type="button" class="btn btn-primary btn-lg btn-generate" id="generateBtn">
+                                <i class="fas fa-wand-magic-sparkles"></i>
+                                إنشاء البوستر
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Templates Selection (shown after step 2) -->
+                <div class="templates-bar" id="templatesBar">
+                    <h4>اختر القالب</h4>
+                    <div class="templates-scroll" id="templatesScroll">
+                        <!-- Templates will be loaded dynamically -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- AI Processing Modal -->
+    <div class="modal-overlay" id="aiModal">
+        <div class="ai-modal">
+            <div class="ai-modal-content">
+                <div class="ai-animation">
+                    <div class="ai-circle">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="ai-waves">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+                
+                <h3 id="aiTitle">جاري التحليل...</h3>
+                
+                <div class="ai-steps">
+                    <div class="ai-step" data-step="analyze">
+                        <div class="step-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <div class="step-info">
+                            <span class="step-name">تحليل بيانات العرض</span>
+                            <span class="step-desc">فهم تفاصيل المنتج والعرض</span>
+                        </div>
+                        <div class="step-status">
+                            <i class="fas fa-circle-notch fa-spin"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="ai-step" data-step="colors">
+                        <div class="step-icon">
+                            <i class="fas fa-palette"></i>
+                        </div>
+                        <div class="step-info">
+                            <span class="step-name">اختيار الألوان والتصميم</span>
+                            <span class="step-desc">تحديد أفضل مزيج للألوان</span>
+                        </div>
+                        <div class="step-status">
+                            <i class="fas fa-circle-notch fa-spin"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="ai-step" data-step="text">
+                        <div class="step-icon">
+                            <i class="fas fa-font"></i>
+                        </div>
+                        <div class="step-info">
+                            <span class="step-name">كتابة النصوص الإبداعية</span>
+                            <span class="step-desc">صياغة نص جذاب للعرض</span>
+                        </div>
+                        <div class="step-status">
+                            <i class="fas fa-circle-notch fa-spin"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="ai-step" data-step="image">
+                        <div class="step-icon">
+                            <i class="fas fa-image"></i>
+                        </div>
+                        <div class="step-info">
+                            <span class="step-name">معالجة الصور</span>
+                            <span class="step-desc">تحسين وتنسيق الصورة</span>
+                        </div>
+                        <div class="step-status">
+                            <i class="fas fa-circle-notch fa-spin"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="ai-step" data-step="compose">
+                        <div class="step-icon">
+                            <i class="fas fa-layer-group"></i>
+                        </div>
+                        <div class="step-info">
+                            <span class="step-name">تنسيق البوستر</span>
+                            <span class="step-desc">تجميع العناصر النهائية</span>
+                        </div>
+                        <div class="step-status">
+                            <i class="fas fa-circle-notch fa-spin"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Result Modal -->
+    <div class="modal-overlay" id="resultModal">
+        <div class="result-modal">
+            <button class="modal-close" id="closeResult">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <div class="result-content">
+                <div class="result-preview">
+                    <canvas id="resultCanvas"></canvas>
+                </div>
+                
+                <div class="result-actions">
+                    <h3>تم إنشاء البوستر بنجاح! 🎉</h3>
+                    <p>يمكنك الآن تحميل التصميم أو إنشاء تصميم جديد</p>
+                    
+                    <div class="action-buttons">
+                        <button class="btn btn-primary btn-lg" id="downloadBtn">
+                            <i class="fas fa-download"></i>
+                            تحميل الصورة
+                        </button>
+                        <button class="btn btn-outline btn-lg" id="newDesignBtn">
+                            <i class="fas fa-plus"></i>
+                            تصميم جديد
+                        </button>
+                    </div>
+                    
+                    <div class="template-switch">
+                        <span>غير راضٍ؟</span>
+                        <button class="btn btn-ghost" id="tryAnotherBtn">
+                            <i class="fas fa-sync-alt"></i>
+                            جرب قالب آخر
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/api-service.js"></script>
+    <script src="js/templates.js"></script>
+    <script src="js/generator.js"></script>
+    <script src="js/create.js"></script>
+</body>
+</html>
