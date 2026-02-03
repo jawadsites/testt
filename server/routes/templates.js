@@ -3,47 +3,62 @@ const router = express.Router();
 const fs = require('fs');
 const path = require('path');
 const multer = require('multer');
+const axios = require('axios');
 const { verifyAdmin } = require('./auth');
 
 const TEMPLATES_FILE = path.join(__dirname, '..', 'data', 'templates.json');
 
-// Cloudinary configuration
-const cloudinary = require('cloudinary').v2;
-const { CloudinaryStorage } = require('multer-storage-cloudinary');
+// Upload to ImgBB (Free, works globally)
+const uploadToImgBB = async (imageBuffer, filename) => {
+    try {
+        const formData = new URLSearchParams();
+        formData.append('image', imageBuffer.toString('base64'));
+        formData.append('name', filename);
+        
+        const response = await axios.post(
+            `https://api.imgbb.com/1/upload?key=${process.env.IMGBB_API_KEY}`,
+            formData,
+            {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+            }
+        );
+        
+        return response.data.data.url;
+    } catch (error) {
+        console.error('ImgBB upload failed:', error.message);
+        throw error;
+    }
+};
 
-// Configure Cloudinary if credentials are available
-const useCloudinary = process.env.CLOUDINARY_CLOUD_NAME && 
-                      process.env.CLOUDINARY_API_KEY && 
-                      process.env.CLOUDINARY_API_SECRET;
+// Fallback: Store as base64 in JSON (for small images)
+const storeImageAsBase64 = (imageBuffer, mimetype) => {
+    const base64String = imageBuffer.toString('base64');
+    return `data:${mimetype};base64,${base64String}`;
+};
 
-if (useCloudinary) {
-    cloudinary.config({
-        cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-        api_key: process.env.CLOUDINARY_API_KEY,
-        api_secret: process.env.CLOUDINARY_API_SECRET
-    });
-}
-
-// Configure multer storage based on environment
-const storage = useCloudinary 
-    ? new CloudinaryStorage({
-        cloudinary: cloudinary,
-        params: {
-            folder: 'poster-templates',
-            allowed_formats: ['jpg', 'jpeg', 'png', 'gif', 'webp'],
-            transformation: [{ width: 1200, height: 1200, crop: 'limit' }]
+// Multi-strategy image upload with fallback
+const uploadImageWithFallback = async (file) => {
+    // Strategy 1: Try ImgBB if API key exists
+    if (process.env.IMGBB_API_KEY) {
+        try {
+            console.log('📤 Uploading to ImgBB...');
+            const url = await uploadToImgBB(file.buffer, file.originalname);
+            console.log('✅ ImgBB upload successful');
+            return url;
+        } catch (error) {
+            console.warn('❌ ImgBB failed, using fallback...');
         }
-    })
-    : multer.diskStorage({
-        destination: (req, file, cb) => {
-            const uploadDir = path.join(__dirname, '..', 'uploads');
-            cb(null, uploadDir);
-        },
-        filename: (req, file, cb) => {
-            const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-            cb(null, uniqueSuffix + path.extname(file.originalname));
-        }
-    });
+    }
+    
+    // Strategy 2: Base64 fallback (always works)
+    console.log('💾 Using base64 fallback storage');
+    return storeImageAsBase64(file.buffer, file.mimetype);
+};
+
+// Configure multer for memory storage (since we'll upload to external service)
+const storage = multer.memoryStorage();
 
 const upload = multer({ 
     storage: storage,
@@ -119,7 +134,7 @@ router.get('/:id', (req, res) => {
 });
 
 // Create new template (admin only)
-router.post('/', verifyAdmin, upload.single('image'), (req, res) => {
+router.post('/', verifyAdmin, upload.single('image'), async (req, res) => {
     try {
         const templates = readTemplates();
         const { name, category, description } = req.body;
@@ -127,16 +142,14 @@ router.post('/', verifyAdmin, upload.single('image'), (req, res) => {
         if (!name || !category) {
             return res.status(400).json({ 
                 success: false, 
-                message: 'الاسم والفئة مطلوبان' 
+                message 'الاسم والفئة مطلوبان' 
             });
         }
         
-        // Get image URL based on storage type
+        // Upload image with fallback strategy
         let imageUrl = null;
         if (req.file) {
-            imageUrl = useCloudinary 
-                ? req.file.path  // Cloudinary URL
-                : `/uploads/${req.file.filename}`;  // Local path
+            imageUrl = await uploadImageWithFallback(req.file);
         }
         
         const newTemplate = {
@@ -167,7 +180,7 @@ router.post('/', verifyAdmin, upload.single('image'), (req, res) => {
 });
 
 // Update template (admin only)
-router.put('/:id', verifyAdmin, upload.single('image'), (req, res) => {
+router.put('/:id', verifyAdmin, upload.single('image'), async (req, res) => {
     try {
         const templates = readTemplates();
         const index = templates.findIndex(t => t.id === req.params.id);
@@ -181,12 +194,10 @@ router.put('/:id', verifyAdmin, upload.single('image'), (req, res) => {
         
         const { name, category, description } = req.body;
         
-        // Get image URL based on storage type
+        // Upload new image if provided
         let imageUrl = templates[index].image;
         if (req.file) {
-            imageUrl = useCloudinary 
-                ? req.file.path  // Cloudinary URL
-                : `/uploads/${req.file.filename}`;  // Local path
+            imageUrl = await uploadImageWithFallback(req.file);
         }
         
         templates[index] = {

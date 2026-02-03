@@ -25,9 +25,5 @@ services:
         value: admin
       - key: ADMIN_PASSWORD
         value: admin123
-      - key: CLOUDINARY_CLOUD_NAME
-        sync: false
-      - key: CLOUDINARY_API_KEY
-        sync: false
-      - key: CLOUDINARY_API_SECRET
+      - key: IMGBB_API_KEY
         sync: false
