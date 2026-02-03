@@ -1017,3 +1017,186 @@ function showNotification(message, type = 'info') {
         setTimeout(() => notification.remove(), 300);
     }, 3000);
 }
+
+// ====================
+// Professional Features Integration
+// ====================
+
+// Initialize professional features managers
+let exportManager, qrCodeManager, designHistory, brandKit;
+
+function initProfessionalFeatures() {
+    if (!generator || !generator.canvas) return;
+    
+    // Initialize managers
+    exportManager = new ExportManager(generator);
+    qrCodeManager = new QRCodeManager(generator);
+    designHistory = new DesignHistory();
+    brandKit = new BrandKit();
+    
+    // Setup event listeners
+    setupExportFeatures();
+    setupHistoryFeatures();
+}
+
+// Setup advanced export features
+function setupExportFeatures() {
+    const exportAdvancedBtn = document.getElementById('exportAdvancedBtn');
+    const exportOptions = document.getElementById('exportOptions');
+    const executeExport = document.getElementById('executeExport');
+    const batchExport = document.getElementById('batchExport');
+    
+    if (exportAdvancedBtn) {
+        exportAdvancedBtn.addEventListener('click', () => {
+            exportOptions.style.display = exportOptions.style.display === 'none' ? 'block' : 'none';
+        });
+    }
+    
+    if (executeExport) {
+        executeExport.addEventListener('click', () => {
+            const preset = document.getElementById('exportPreset').value;
+            const format = document.getElementById('exportFormat').value;
+            const filename = `poster_${Date.now()}`;
+            
+            exportManager.exportDesign({ format, preset, filename });
+            showNotification('✅ تم تحميل التصميم بنجاح!', 'success');
+        });
+    }
+    
+    if (batchExport) {
+        batchExport.addEventListener('click', async () => {
+            const format = document.getElementById('exportFormat').value;
+            const presets = ['instagram_post', 'facebook_post', 'twitter_post'];
+            
+            showNotification('⏳ جاري تحميل جميع المقاسات...', 'success');
+            
+            await exportManager.batchExport(presets, [format], `poster_${Date.now()}`);
+            
+            showNotification('✅ تم تحميل جميع المقاسات بنجاح!', 'success');
+        });
+    }
+}
+
+// Setup design history features
+function setupHistoryFeatures() {
+    const saveDesignBtn = document.getElementById('saveDesignBtn');
+    const showHistoryBtn = document.getElementById('showHistoryBtn');
+    
+    if (saveDesignBtn) {
+        saveDesignBtn.addEventListener('click', () => {
+            const thumbnail = generator.canvas.toDataURL({ format: 'png', quality: 0.5, multiplier: 0.3 });
+            
+            const designData = {
+                thumbnail: thumbnail,
+                data: {
+                    businessName: document.getElementById('businessName')?.value || '',
+                    productName: document.getElementById('productName')?.value || '',
+                    price: document.getElementById('price')?.value || '',
+                    category: selectedCategory
+                },
+                layout: generator.layout,
+                templateId: selectedTemplate?.id
+            };
+            
+            designHistory.saveDesign(designData);
+            showNotification('💾 تم حفظ التصميم بنجاح!', 'success');
+        });
+    }
+    
+    if (showHistoryBtn) {
+        showHistoryBtn.addEventListener('click', () => {
+            showDesignHistoryModal();
+        });
+    }
+}
+
+// Show design history modal
+function showDesignHistoryModal() {
+    const history = designHistory.getHistory();
+    
+    if (history.length === 0) {
+        showNotification('ℹ️ لا توجد تصاميم محفوظة بعد', 'info');
+        return;
+    }
+    
+    const modal = document.createElement('div');
+    modal.className = 'modal-overlay';
+    modal.innerHTML = `
+        <div class="history-modal">
+            <div class="modal-header">
+                <h3><i class="fas fa-history"></i> التصاميم السابقة</h3>
+                <button class="modal-close" onclick="this.closest('.modal-overlay').remove()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="history-grid">
+                ${history.map(design => `
+                    <div class="history-item" data-design-id="${design.id}">
+                        <img src="${design.thumbnail}" alt="Design">
+                        <div class="history-item-info">
+                            <small>${new Date(design.timestamp).toLocaleDateString('ar')}</small>
+                            <div class="history-actions">
+                                <button class="btn btn-sm btn-primary" onclick="loadHistoryDesign('${design.id}')">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline" onclick="deleteHistoryDesign('${design.id}')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+}
+
+// Load design from history
+window.loadHistoryDesign = function(designId) {
+    const design = designHistory.loadDesign(designId);
+    if (design) {
+        // Populate form with saved data
+        if (design.data.businessName) document.getElementById('businessName').value = design.data.businessName;
+        if (design.data.productName) document.getElementById('productName').value = design.data.productName;
+        if (design.data.price) document.getElementById('price').value = design.data.price;
+        
+        // Update layout
+        if (design.layout) {
+            generator.setLayout(design.layout);
+        }
+        
+        // Regenerate
+        generator.generate(design.data);
+        
+        // Close modal and show result
+        document.querySelector('.history-modal')?.closest('.modal-overlay').remove();
+        document.getElementById('resultModal').classList.add('active');
+        
+        showNotification('✅ تم تحميل التصميم بنجاح!', 'success');
+    }
+};
+
+// Delete design from history
+window.deleteHistoryDesign = function(designId) {
+    if (confirm('هل أنت متأكد من حذف هذا التصميم؟')) {
+        designHistory.deleteDesign(designId);
+        document.querySelector(`[data-design-id="${designId}"]`)?.remove();
+        showNotification('🗑️ تم حذف التصميم', 'success');
+    }
+};
+
+// Initialize professional features when result modal opens
+const resultModal = document.getElementById('resultModal');
+if (resultModal) {
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            if (mutation.target.classList.contains('active')) {
+                setTimeout(() => initProfessionalFeatures(), 100);
+            }
+        });
+    });
+    
+    observer.observe(resultModal, { attributes: true, attributeFilter: ['class'] });
+}

@@ -1935,3 +1935,197 @@
         grid-template-columns: repeat(4, 1fr);
     }
 }
+
+/* ====================
+   Professional Features Styles
+   ==================== */
+
+/* Export Options */
+.export-options {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #667eea1a 0%, #764ba21a 100%);
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(139, 92, 246, 0.2);
+}
+
+.export-options h4 {
+    color: var(--primary);
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.export-section {
+    margin-bottom: 1.25rem;
+}
+
+.export-section:last-child {
+    margin-bottom: 0;
+}
+
+.export-section label {
+    display: block;
+    font-weight: 600;
+    color: var(--gray-700);
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.form-select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 2px solid #e5e7eb;
+    border-radius: var(--radius-md);
+    font-size: 0.95rem;
+    font-family: inherit;
+    background: white;
+    cursor: pointer;
+    transition: all var(--transition);
+}
+
+.form-select:hover {
+    border-color: var(--primary);
+}
+
+.form-select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
+
+.export-section button {
+    margin-top: 0.5rem;
+    margin-right: 0.5rem;
+}
+
+/* Design History Toggle */
+.design-history-toggle {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e5e7eb;
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+}
+
+.btn-success:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+}
+
+/* History Modal */
+.history-modal {
+    background: white;
+    border-radius: var(--radius-xl);
+    padding: 2rem;
+    max-width: 900px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.history-modal .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #f3f4f6;
+}
+
+.history-modal .modal-header h3 {
+    color: var(--primary);
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.history-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+.history-item {
+    position: relative;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    transition: all var(--transition);
+    cursor: pointer;
+}
+
+.history-item:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-xl);
+}
+
+.history-item img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.history-item-info {
+    padding: 0.75rem;
+    background: white;
+}
+
+.history-item-info small {
+    display: block;
+    color: var(--gray-600);
+    margin-bottom: 0.5rem;
+    font-size: 0.85rem;
+}
+
+.history-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.history-actions .btn {
+    flex: 1;
+}
+
+/* Success button variant */
+.btn-lg {
+    padding: 1rem 2rem;
+    font-size: 1.05rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .export-options {
+        padding: 1rem;
+    }
+    
+    .history-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 1rem;
+    }
+    
+    .history-item img {
+        height: 150px;
+    }
+    
+    .design-history-toggle {
+        flex-direction: column;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+    }
+    
+    .btn-lg {
+        width: 100%;
+    }
+}
