@@ -3,6 +3,9 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
+// JWT Secret with fallback
+const JWT_SECRET = process.env.JWT_SECRET || 'default-secret-key-change-in-production-12345';
+
 // Simple admin credentials (in production, use database)
 const ADMIN = {
     username: process.env.ADMIN_USERNAME || 'admin',
@@ -13,6 +16,10 @@ const ADMIN = {
 router.post('/login', async (req, res) => {
     try {
         const { username, password } = req.body;
+        
+        console.log('Login attempt:', { username, hasPassword: !!password });
+        console.log('Expected credentials:', { username: ADMIN.username, password: ADMIN.password });
+        console.log('JWT_SECRET exists:', !!JWT_SECRET);
         
         // Validate credentials
         if (username !== ADMIN.username || password !== ADMIN.password) {
@@ -25,9 +32,11 @@ router.post('/login', async (req, res) => {
         // Generate JWT token
         const token = jwt.sign(
             { username: ADMIN.username, role: 'admin' },
-            process.env.JWT_SECRET,
+            JWT_SECRET,
             { expiresIn: '24h' }
         );
+        
+        console.log('Login successful, token generated');
         
         res.json({
             success: true,
@@ -38,7 +47,7 @@ router.post('/login', async (req, res) => {
         console.error('Login error:', error);
         res.status(500).json({ 
             success: false, 
-            message: 'حدث خطأ في تسجيل الدخول' 
+            message: 'حدث خطأ في تسجيل الدخول: ' + error.message 
         });
     }
 });
@@ -55,7 +64,7 @@ router.get('/verify', (req, res) => {
             });
         }
         
-        jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+        jwt.verify(token, JWT_SECRET, (err, decoded) => {
             if (err) {
                 return res.status(401).json({ 
                     success: false, 
@@ -88,7 +97,7 @@ const verifyAdmin = (req, res, next) => {
             });
         }
         
-        jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+        jwt.verify(token, JWT_SECRET, (err, decoded) => {
             if (err) {
                 return res.status(401).json({ 
                     success: false, 
