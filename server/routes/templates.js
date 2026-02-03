@@ -142,7 +142,7 @@ router.post('/', verifyAdmin, upload.single('image'), async (req, res) => {
         if (!name || !category) {
             return res.status(400).json({ 
                 success: false, 
-                message: 'الاسم والفئة مطلوبان' 
+                message: 'الاسم والفئة مطلوبان'
             });
         }
         
