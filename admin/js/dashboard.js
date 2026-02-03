@@ -2,7 +2,7 @@
 // Admin Dashboard Handler
 // ==================== 
 
-const API_URL = 'http://localhost:3000/api';
+const API_URL = 'https://postmaker-ai-backend.onrender.com/api';
 let currentTemplateId = null;
 
 document.addEventListener('DOMContentLoaded', () => {

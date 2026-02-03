@@ -2,7 +2,7 @@
 // API Service - Backend Connection
 // ==================== 
 
-const API_BASE_URL = 'http://localhost:3000/api';
+const API_BASE_URL = 'https://postmaker-ai-backend.onrender.com/api';
 
 class APIService {
     constructor() {
@@ -68,7 +68,7 @@ class APIService {
         }
         
         // Otherwise, construct full URL
-        return `http://localhost:3000${imagePath}`;
+        return `https://postmaker-ai-backend.onrender.com${imagePath}`;
     }
 }
 

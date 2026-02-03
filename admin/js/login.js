@@ -2,7 +2,7 @@
 // Admin Login Handler
 // ==================== 
 
-const API_URL = 'http://localhost:3000/api';
+const API_URL = 'https://postmaker-ai-backend.onrender.com/api';
 
 document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.getElementById('loginForm');
