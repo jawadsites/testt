@@ -7,17 +7,43 @@ const { verifyAdmin } = require('./auth');
 
 const TEMPLATES_FILE = path.join(__dirname, '..', 'data', 'templates.json');
 
-// Configure multer for image uploads
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        const uploadDir = path.join(__dirname, '..', 'uploads');
-        cb(null, uploadDir);
-    },
-    filename: (req, file, cb) => {
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-        cb(null, uniqueSuffix + path.extname(file.originalname));
-    }
-});
+// Cloudinary configuration
+const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
+
+// Configure Cloudinary if credentials are available
+const useCloudinary = process.env.CLOUDINARY_CLOUD_NAME && 
+                      process.env.CLOUDINARY_API_KEY && 
+                      process.env.CLOUDINARY_API_SECRET;
+
+if (useCloudinary) {
+    cloudinary.config({
+        cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+        api_key: process.env.CLOUDINARY_API_KEY,
+        api_secret: process.env.CLOUDINARY_API_SECRET
+    });
+}
+
+// Configure multer storage based on environment
+const storage = useCloudinary 
+    ? new CloudinaryStorage({
+        cloudinary: cloudinary,
+        params: {
+            folder: 'poster-templates',
+            allowed_formats: ['jpg', 'jpeg', 'png', 'gif', 'webp'],
+            transformation: [{ width: 1200, height: 1200, crop: 'limit' }]
+        }
+    })
+    : multer.diskStorage({
+        destination: (req, file, cb) => {
+            const uploadDir = path.join(__dirname, '..', 'uploads');
+            cb(null, uploadDir);
+        },
+        filename: (req, file, cb) => {
+            const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+            cb(null, uniqueSuffix + path.extname(file.originalname));
+        }
+    });
 
 const upload = multer({ 
     storage: storage,
@@ -105,12 +131,20 @@ router.post('/', verifyAdmin, upload.single('image'), (req, res) => {
             });
         }
         
+        // Get image URL based on storage type
+        let imageUrl = null;
+        if (req.file) {
+            imageUrl = useCloudinary 
+                ? req.file.path  // Cloudinary URL
+                : `/uploads/${req.file.filename}`;  // Local path
+        }
+        
         const newTemplate = {
             id: Date.now().toString(),
             name,
             category,
             description: description || '',
-            image: req.file ? `/uploads/${req.file.filename}` : null,
+            image: imageUrl,
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString()
         };
@@ -147,12 +181,20 @@ router.put('/:id', verifyAdmin, upload.single('image'), (req, res) => {
         
         const { name, category, description } = req.body;
         
+        // Get image URL based on storage type
+        let imageUrl = templates[index].image;
+        if (req.file) {
+            imageUrl = useCloudinary 
+                ? req.file.path  // Cloudinary URL
+                : `/uploads/${req.file.filename}`;  // Local path
+        }
+        
         templates[index] = {
             ...templates[index],
             name: name || templates[index].name,
             category: category || templates[index].category,
             description: description !== undefined ? description : templates[index].description,
-            image: req.file ? `/uploads/${req.file.filename}` : templates[index].image,
+            image: imageUrl,
             updatedAt: new Date().toISOString()
         };
         
