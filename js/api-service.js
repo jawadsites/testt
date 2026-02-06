@@ -70,6 +70,65 @@ class APIService {
         // Otherwise, construct full URL
         return `https://postmaker-ai-backend.onrender.com${imagePath}`;
     }
+
+    // ==================== 
+    // AI Generation API
+    // ==================== 
+
+    async checkAIStatus() {
+        try {
+            const response = await fetch(`${this.baseURL}/ai/status`);
+            return await response.json();
+        } catch (error) {
+            console.error('AI status check failed:', error);
+            return { success: false, status: 'offline' };
+        }
+    }
+
+    async generateAIBackground(category, style, customPrompt = null) {
+        try {
+            const body = { category, style, width: 1024, height: 1024 };
+            if (customPrompt) body.customPrompt = customPrompt;
+
+            const response = await fetch(`${this.baseURL}/ai/generate`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(body)
+            });
+            return await response.json();
+        } catch (error) {
+            console.error('AI generation failed:', error);
+            return { success: false, message: error.message };
+        }
+    }
+
+    async smartGenerate(category, description) {
+        try {
+            const response = await fetch(`${this.baseURL}/ai/smart-generate`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ category, description, width: 1024, height: 1024 })
+            });
+            return await response.json();
+        } catch (error) {
+            console.error('Smart generation failed:', error);
+            return { success: false, message: error.message };
+        }
+    }
+
+    async generateMultipleStyles(category, styles) {
+        try {
+            const response = await fetch(`${this.baseURL}/ai/generate-multiple`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ category, styles, width: 1024, height: 1024 })
+            });
+            return await response.json();
+        } catch (error) {
+            console.error('Multiple generation failed:', error);
+            return { success: false, message: error.message };
+        }
+    }
 }
 
 // Create global instance

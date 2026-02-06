@@ -20,10 +20,12 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // Import routes
 const authRoutes = require('./routes/auth');
 const templateRoutes = require('./routes/templates');
+const aiRoutes = require('./routes/ai');
 
 // Use routes
 app.use('/api/auth', authRoutes);
 app.use('/api/templates', templateRoutes);
+app.use('/api/ai', aiRoutes);
 
 // Serve main app
 app.get('/', (req, res) => {

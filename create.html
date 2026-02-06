@@ -126,11 +126,88 @@
                     <div class="form-step" id="step2">
                         <div class="step-header">
                             <span class="step-indicator">الخطوة 2 من 4</span>
-                            <h2>اختر قالب التصميم</h2>
-                            <p>اختر القالب الذي يناسب علامتك التجارية</p>
+                            <h2>اختر طريقة التصميم</h2>
+                            <p>استخدم الذكاء الاصطناعي أو اختر قالب جاهز</p>
                         </div>
 
-                        <div id="templatesContainer" class="templates-grid">
+                        <!-- AI Mode Toggle -->
+                        <div class="ai-mode-toggle">
+                            <button type="button" class="mode-btn active" id="aiModeBtn" data-mode="ai">
+                                <div class="mode-icon">
+                                    <i class="fas fa-magic"></i>
+                                    <span class="ai-badge">AI</span>
+                                </div>
+                                <div class="mode-info">
+                                    <h4>تصميم بالذكاء الاصطناعي</h4>
+                                    <p>خلفيات فريدة مولدة بـ Stable Diffusion</p>
+                                </div>
+                            </button>
+                            <button type="button" class="mode-btn" id="templateModeBtn" data-mode="template">
+                                <div class="mode-icon">
+                                    <i class="fas fa-th-large"></i>
+                                </div>
+                                <div class="mode-info">
+                                    <h4>قوالب جاهزة</h4>
+                                    <p>اختر من مكتبة القوالب المصممة</p>
+                                </div>
+                            </button>
+                        </div>
+
+                        <!-- AI Style Selection (shown when AI mode) -->
+                        <div class="ai-style-section" id="aiStyleSection">
+                            <h4 class="section-title"><i class="fas fa-wand-magic-sparkles"></i> اختر نمط التصميم</h4>
+                            <div class="ai-styles-grid">
+                                <label class="ai-style-option active" data-style="modern">
+                                    <input type="radio" name="aiStyle" value="modern" checked>
+                                    <div class="style-card">
+                                        <div class="style-icon"><i class="fas fa-bolt"></i></div>
+                                        <h5>عصري</h5>
+                                        <p>تصميم حديث وأنيق</p>
+                                    </div>
+                                </label>
+                                <label class="ai-style-option" data-style="classic">
+                                    <input type="radio" name="aiStyle" value="classic">
+                                    <div class="style-card">
+                                        <div class="style-icon"><i class="fas fa-crown"></i></div>
+                                        <h5>كلاسيكي</h5>
+                                        <p>تصميم تقليدي راقي</p>
+                                    </div>
+                                </label>
+                                <label class="ai-style-option" data-style="luxury">
+                                    <input type="radio" name="aiStyle" value="luxury">
+                                    <div class="style-card">
+                                        <div class="style-icon"><i class="fas fa-gem"></i></div>
+                                        <h5>فاخر</h5>
+                                        <p>تصميم فخم وراقي</p>
+                                    </div>
+                                </label>
+                                <label class="ai-style-option" data-style="colorful">
+                                    <input type="radio" name="aiStyle" value="colorful">
+                                    <div class="style-card">
+                                        <div class="style-icon"><i class="fas fa-palette"></i></div>
+                                        <h5>ملوّن</h5>
+                                        <p>تصميم مشرق وحيوي</p>
+                                    </div>
+                                </label>
+                                <label class="ai-style-option" data-style="minimal">
+                                    <input type="radio" name="aiStyle" value="minimal">
+                                    <div class="style-card">
+                                        <div class="style-icon"><i class="fas fa-minus-circle"></i></div>
+                                        <h5>بسيط</h5>
+                                        <p>تصميم نظيف ومبسط</p>
+                                    </div>
+                                </label>
+                            </div>
+                            
+                            <div class="ai-custom-prompt">
+                                <label><i class="fas fa-pencil-alt"></i> وصف إضافي (اختياري)</label>
+                                <input type="text" id="aiCustomPrompt" placeholder="مثال: خلفية دافئة مع إضاءة ذهبية..." dir="rtl">
+                                <small>اكتب وصف بالعربي أو الإنجليزي لتخصيص الخلفية</small>
+                            </div>
+                        </div>
+
+                        <!-- Templates Grid (shown when Template mode) -->
+                        <div id="templatesContainer" class="templates-grid" style="display: none;">
                             <div class="loading-templates-step">
                                 <i class="fas fa-spinner fa-spin"></i>
                                 <p>جاري تحميل القوالب...</p>
@@ -495,71 +572,76 @@
                     </div>
                 </div>
                 
-                <h3 id="aiTitle">جاري التحليل...</h3>
+                <h3 id="aiTitle">الذكاء الاصطناعي يعمل...</h3>
                 
                 <div class="ai-steps">
-                    <div class="ai-step" data-step="analyze">
+                    <div class="ai-step" id="step-analyze" data-step="analyze">
                         <div class="step-icon">
                             <i class="fas fa-search"></i>
                         </div>
                         <div class="step-info">
                             <span class="step-name">تحليل بيانات العرض</span>
-                            <span class="step-desc">فهم تفاصيل المنتج والعرض</span>
+                            <span class="step-desc">فهم تفاصيل المنتج والفئة</span>
                         </div>
                         <div class="step-status">
-                            <i class="fas fa-circle-notch fa-spin"></i>
+                            <i class="fas fa-circle-notch fa-spin waiting-icon"></i>
+                            <i class="fas fa-check completed-icon" style="display:none"></i>
                         </div>
                     </div>
                     
-                    <div class="ai-step" data-step="colors">
+                    <div class="ai-step" id="step-ai-generate" data-step="ai-generate">
                         <div class="step-icon">
-                            <i class="fas fa-palette"></i>
+                            <i class="fas fa-brain"></i>
                         </div>
                         <div class="step-info">
-                            <span class="step-name">اختيار الألوان والتصميم</span>
-                            <span class="step-desc">تحديد أفضل مزيج للألوان</span>
+                            <span class="step-name">إنشاء خلفية بالذكاء الاصطناعي</span>
+                            <span class="step-desc">Stable Diffusion XL يصمم الخلفية</span>
                         </div>
                         <div class="step-status">
-                            <i class="fas fa-circle-notch fa-spin"></i>
+                            <i class="fas fa-circle-notch fa-spin waiting-icon"></i>
+                            <i class="fas fa-check completed-icon" style="display:none"></i>
                         </div>
                     </div>
                     
-                    <div class="ai-step" data-step="text">
-                        <div class="step-icon">
-                            <i class="fas fa-font"></i>
-                        </div>
-                        <div class="step-info">
-                            <span class="step-name">كتابة النصوص الإبداعية</span>
-                            <span class="step-desc">صياغة نص جذاب للعرض</span>
-                        </div>
-                        <div class="step-status">
-                            <i class="fas fa-circle-notch fa-spin"></i>
-                        </div>
-                    </div>
-                    
-                    <div class="ai-step" data-step="image">
+                    <div class="ai-step" id="step-load-bg" data-step="load-bg">
                         <div class="step-icon">
                             <i class="fas fa-image"></i>
                         </div>
                         <div class="step-info">
-                            <span class="step-name">معالجة الصور</span>
-                            <span class="step-desc">تحسين وتنسيق الصورة</span>
+                            <span class="step-name">تحميل الخلفية على التصميم</span>
+                            <span class="step-desc">تطبيق الخلفية المولدة</span>
                         </div>
                         <div class="step-status">
-                            <i class="fas fa-circle-notch fa-spin"></i>
+                            <i class="fas fa-circle-notch fa-spin waiting-icon"></i>
+                            <i class="fas fa-check completed-icon" style="display:none"></i>
                         </div>
                     </div>
                     
-                    <div class="ai-step" data-step="compose">
+                    <div class="ai-step" id="step-text" data-step="text">
+                        <div class="step-icon">
+                            <i class="fas fa-font"></i>
+                        </div>
+                        <div class="step-info">
+                            <span class="step-name">إضافة النصوص العربية</span>
+                            <span class="step-desc">كتابة العناوين والأسعار بالعربي</span>
+                        </div>
+                        <div class="step-status">
+                            <i class="fas fa-circle-notch fa-spin waiting-icon"></i>
+                            <i class="fas fa-check completed-icon" style="display:none"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="ai-step" id="step-compose" data-step="compose">
                         <div class="step-icon">
                             <i class="fas fa-layer-group"></i>
                         </div>
                         <div class="step-info">
-                            <span class="step-name">تنسيق البوستر</span>
-                            <span class="step-desc">تجميع العناصر النهائية</span>
+                            <span class="step-name">تنسيق البوستر النهائي</span>
+                            <span class="step-desc">تجميع كل العناصر معاً</span>
                         </div>
                         <div class="step-status">
-                            <i class="fas fa-circle-notch fa-spin"></i>
+                            <i class="fas fa-circle-notch fa-spin waiting-icon"></i>
+                            <i class="fas fa-check completed-icon" style="display:none"></i>
                         </div>
                     </div>
                 </div>
@@ -668,6 +750,7 @@
     <script src="js/templates.js"></script>
     <script src="js/professional-features.js"></script>
     <script src="js/generator.js"></script>
+    <script src="js/ai-hybrid-generator.js"></script>
     <script src="js/create.js"></script>
 </body>
 </html>

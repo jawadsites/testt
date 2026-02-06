@@ -16,6 +16,8 @@ let generator = null;
 let allTemplates = []; // Templates from backend
 let templateCounts = {}; // Count per category
 let categoryTemplates = []; // Templates for selected category
+let useAIMode = true; // AI mode enabled by default
+let selectedAIStyle = 'modern'; // Default AI style
 
 // ==================== 
 // Initialize 
@@ -36,6 +38,7 @@ async function initCreatePage() {
     initFormInputs();
     initLayoutControls();
     initPreviewActions();
+    initAIModeToggle();
     
     // Show first step
     showStep(1);
@@ -187,6 +190,10 @@ function validateStep(step) {
             return true;
             
         case 2:
+            if (useAIMode) {
+                // AI mode - no template needed, just style selection
+                return true;
+            }
             if (!selectedTemplate) {
                 showNotification('الرجاء اختيار قالب', 'error');
                 return false;
@@ -238,6 +245,85 @@ function initCategorySelection() {
             }
         });
     });
+}
+
+// ==================== 
+// AI Mode Toggle
+// ==================== 
+function initAIModeToggle() {
+    const aiModeBtn = document.getElementById('aiModeBtn');
+    const templateModeBtn = document.getElementById('templateModeBtn');
+    const aiStyleSection = document.getElementById('aiStyleSection');
+    const templatesContainer = document.getElementById('templatesContainer');
+    
+    if (aiModeBtn) {
+        aiModeBtn.addEventListener('click', () => {
+            useAIMode = true;
+            aiModeBtn.classList.add('active');
+            templateModeBtn?.classList.remove('active');
+            
+            if (aiStyleSection) aiStyleSection.style.display = 'block';
+            if (templatesContainer) templatesContainer.style.display = 'none';
+            
+            // Enable next button (no template needed)
+            enableNextButton(2);
+        });
+    }
+    
+    if (templateModeBtn) {
+        templateModeBtn.addEventListener('click', () => {
+            useAIMode = false;
+            templateModeBtn.classList.add('active');
+            aiModeBtn?.classList.remove('active');
+            
+            if (aiStyleSection) aiStyleSection.style.display = 'none';
+            if (templatesContainer) {
+                templatesContainer.style.display = '';
+                loadCategoryTemplates();
+            }
+            
+            // Disable next button until template selected
+            if (!selectedTemplate) {
+                const nextBtn = document.querySelector('#step2 [data-next]');
+                if (nextBtn) {
+                    nextBtn.disabled = true;
+                    nextBtn.style.opacity = '0.5';
+                }
+            }
+        });
+    }
+    
+    // AI Style selection
+    document.querySelectorAll('input[name="aiStyle"]').forEach(radio => {
+        radio.addEventListener('change', (e) => {
+            selectedAIStyle = e.target.value;
+            if (window.aiGenerator) {
+                aiGenerator.setStyle(selectedAIStyle);
+            }
+            
+            // Update active class on parent labels
+            document.querySelectorAll('.ai-style-option').forEach(opt => {
+                opt.classList.remove('active');
+            });
+            e.target.closest('.ai-style-option')?.classList.add('active');
+        });
+    });
+    
+    // Style card click handler
+    document.querySelectorAll('.ai-style-option').forEach(option => {
+        option.addEventListener('click', () => {
+            const radio = option.querySelector('input[type="radio"]');
+            if (radio) {
+                radio.checked = true;
+                radio.dispatchEvent(new Event('change'));
+            }
+        });
+    });
+    
+    // Default: AI mode enabled, enable step 2 next button
+    if (useAIMode) {
+        enableNextButton(2);
+    }
 }
 
 function enableNextButton(step) {
@@ -778,18 +864,177 @@ function getLayoutValues() {
 async function startGeneration() {
     if (!validateStep(3)) return;
     
+    const generateBtn = document.getElementById('generateBtn');
+    
+    if (useAIMode) {
+        // ===== AI MODE: Real Stable Diffusion generation =====
+        await startAIGeneration(generateBtn);
+    } else {
+        // ===== TEMPLATE MODE: Original generation =====
+        await startTemplateGeneration(generateBtn);
+    }
+}
+
+// ==================== 
+// AI Mode Generation (Replicate + Stable Diffusion)
+// ==================== 
+async function startAIGeneration(generateBtn) {
     // Show AI modal
     const modal = document.getElementById('aiModal');
-    if (modal) {
-        modal.classList.add('active');
+    if (modal) modal.classList.add('active');
+    if (generateBtn) generateBtn.classList.add('generating');
+    
+    // Reset AI steps
+    resetAISteps();
+    
+    const aiTitle = document.getElementById('aiTitle');
+    const progressBar = document.querySelector('.ai-progress-bar');
+    
+    const stepIds = ['step-analyze', 'step-ai-generate', 'step-load-bg', 'step-text', 'step-compose'];
+    
+    try {
+        const formData = collectFormData();
+        const style = selectedAIStyle;
+        const customPrompt = document.getElementById('aiCustomPrompt')?.value || null;
+        
+        // Step 1: Analyze
+        activateAIStep(stepIds[0]);
+        if (aiTitle) aiTitle.textContent = 'تحليل بيانات العرض...';
+        if (progressBar) progressBar.style.width = '10%';
+        await sleep(600);
+        completeAIStep(stepIds[0]);
+        
+        // Step 2: Generate AI Background
+        activateAIStep(stepIds[1]);
+        if (aiTitle) aiTitle.textContent = 'الذكاء الاصطناعي يصمم الخلفية...';
+        if (progressBar) progressBar.style.width = '20%';
+        
+        let bgResult;
+        if (customPrompt || (formData.productName && formData.productName.length > 3)) {
+            bgResult = await aiGenerator.smartGenerate(
+                formData.category, 
+                customPrompt || (formData.productName + ' ' + (formData.offerText || ''))
+            );
+        } else {
+            bgResult = await aiGenerator.generateBackground(
+                formData.category, 
+                style
+            );
+        }
+        
+        if (progressBar) progressBar.style.width = '55%';
+        completeAIStep(stepIds[1]);
+        
+        // Step 3: Load background to canvas
+        activateAIStep(stepIds[2]);
+        if (aiTitle) aiTitle.textContent = 'تحميل الخلفية...';
+        if (progressBar) progressBar.style.width = '65%';
+        
+        generator.canvas.clear();
+        const sizeType = document.querySelector('input[name="size"]:checked')?.value || 'instagram-post';
+        generator.setSize(sizeType);
+        generator.setData(formData);
+        
+        const layoutValues = getLayoutValues();
+        generator.setLayout(layoutValues);
+        
+        // Set uploaded image if any
+        await generator.setImage(uploadedImageData);
+        
+        // Load AI background
+        await aiGenerator.loadBackgroundToCanvas(
+            generator.canvas, 
+            bgResult.imageUrl, 
+            generator.width, 
+            generator.height
+        );
+        
+        if (progressBar) progressBar.style.width = '75%';
+        completeAIStep(stepIds[2]);
+        
+        // Step 4: Add Arabic text
+        activateAIStep(stepIds[3]);
+        if (aiTitle) aiTitle.textContent = 'إضافة النصوص العربية...';
+        if (progressBar) progressBar.style.width = '82%';
+        
+        const theme = generator.getTheme();
+        generator.drawBusinessName(theme);
+        generator.drawProductSection(theme);
+        
+        if (generator.uploadedImage) {
+            await generator.drawProductImage(theme);
+        }
+        
+        generator.drawPriceBadge(theme);
+        generator.drawOfferBanner(theme);
+        generator.drawContactSection(theme);
+        generator.drawCTAButton(theme);
+        
+        await sleep(300);
+        if (progressBar) progressBar.style.width = '90%';
+        completeAIStep(stepIds[3]);
+        
+        // Step 5: Final compose
+        activateAIStep(stepIds[4]);
+        if (aiTitle) aiTitle.textContent = 'تنسيق التصميم النهائي...';
+        generator.canvas.renderAll();
+        
+        await sleep(500);
+        if (progressBar) progressBar.style.width = '100%';
+        completeAIStep(stepIds[4]);
+        
+        if (aiTitle) aiTitle.textContent = 'تم بنجاح! 🎉';
+        await sleep(600);
+        
+        // Show result
+        modal?.classList.remove('active');
+        if (generateBtn) generateBtn.classList.remove('generating');
+        await sleep(300);
+        showResultModal();
+        
+    } catch (error) {
+        console.error('AI Generation failed:', error);
+        
+        if (aiTitle) aiTitle.textContent = 'حدث خطأ...';
+        
+        // Show error in modal
+        let errorDiv = modal?.querySelector('.ai-error-message');
+        if (!errorDiv) {
+            errorDiv = document.createElement('div');
+            errorDiv.className = 'ai-error-message';
+            modal?.querySelector('.ai-modal-content')?.appendChild(errorDiv);
+        }
+        errorDiv.innerHTML = `<i class="fas fa-exclamation-triangle"></i> ${error.message || 'فشل في إنشاء التصميم. يتم استخدام القالب البديل...'}`;
+        errorDiv.classList.add('show');
+        
+        await sleep(2000);
+        
+        // Fallback to template generation
+        modal?.classList.remove('active');
+        if (generateBtn) generateBtn.classList.remove('generating');
+        errorDiv.classList.remove('show');
+        
+        showNotification('تم التبديل إلى القالب البديل', 'warning');
+        updatePreview();
+        await sleep(500);
+        showResultModal();
     }
+}
+
+// ==================== 
+// Template Mode Generation (Original)
+// ==================== 
+async function startTemplateGeneration(generateBtn) {
+    // Show AI modal
+    const modal = document.getElementById('aiModal');
+    if (modal) modal.classList.add('active');
     
     // Animate steps
     const steps = [
         { id: 'step-analyze', duration: 800 },
-        { id: 'step-colors', duration: 600 },
-        { id: 'step-text', duration: 700 },
-        { id: 'step-image', duration: 500 },
+        { id: 'step-ai-generate', duration: 600 },
+        { id: 'step-load-bg', duration: 700 },
+        { id: 'step-text', duration: 500 },
         { id: 'step-compose', duration: 900 }
     ];
     
@@ -798,25 +1043,13 @@ async function startGeneration() {
     
     for (let i = 0; i < steps.length; i++) {
         const step = steps[i];
-        const stepEl = document.getElementById(step.id);
+        activateAIStep(step.id);
         
-        // Activate current step
-        if (stepEl) {
-            stepEl.classList.add('active');
-        }
-        
-        // Update progress
         await sleep(step.duration);
         progressPercent = ((i + 1) / steps.length) * 100;
-        if (progressBar) {
-            progressBar.style.width = progressPercent + '%';
-        }
+        if (progressBar) progressBar.style.width = progressPercent + '%';
         
-        // Complete current step
-        if (stepEl) {
-            stepEl.classList.remove('active');
-            stepEl.classList.add('completed');
-        }
+        completeAIStep(step.id);
     }
     
     // Generate the actual poster
@@ -824,16 +1057,29 @@ async function startGeneration() {
     
     // Small delay then show result
     await sleep(500);
-    
-    // Hide AI modal, show result modal
     modal?.classList.remove('active');
-    
-    // Wait for generation to complete
     await sleep(300);
     showResultModal();
-    
-    // Reset AI steps for next time
     resetAISteps();
+}
+
+// ==================== 
+// AI Step Helpers
+// ==================== 
+function activateAIStep(stepId) {
+    const stepEl = document.getElementById(stepId);
+    if (stepEl) {
+        stepEl.classList.add('active');
+        stepEl.classList.remove('completed');
+    }
+}
+
+function completeAIStep(stepId) {
+    const stepEl = document.getElementById(stepId);
+    if (stepEl) {
+        stepEl.classList.remove('active');
+        stepEl.classList.add('completed');
+    }
 }
 
 function resetAISteps() {

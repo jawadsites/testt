@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>خطة تنفيذ نظام الذكاء الاصطناعي - PostMaker AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            line-height: 1.8;
+            color: #1a1a1a;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header .subtitle {
+            font-size: 1.4rem;
+            opacity: 0.95;
+            margin-bottom: 10px;
+        }
+
+        .header .date {
+            font-size: 1.1rem;
+            opacity: 0.85;
+        }
+
+        .content {
+            padding: 50px;
+        }
+
+        .section {
+            margin-bottom: 50px;
+            page-break-inside: avoid;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #667eea;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section-title .icon {
+            font-size: 2.5rem;
+        }
+
+        .box {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            border-right: 5px solid #667eea;
+        }
+
+        .box-success {
+            background: #d4edda;
+            border-right-color: #28a745;
+        }
+
+        .box-warning {
+            background: #fff3cd;
+            border-right-color: #ffc107;
+        }
+
+        .box-info {
+            background: #d1ecf1;
+            border-right-color: #17a2b8;
+        }
+
+        .box-primary {
+            background: #e7e9fc;
+            border-right-color: #667eea;
+        }
+
+        h3 {
+            font-size: 1.6rem;
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        p {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        ul, ol {
+            margin-right: 30px;
+            margin-bottom: 20px;
+        }
+
+        li {
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+            color: #555;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #fff9c4 0%, #ffeb3b 100%);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .checkmark {
+            color: #28a745;
+            font-weight: 900;
+            margin-left: 8px;
+        }
+
+        .cross {
+            color: #dc3545;
+            font-weight: 900;
+            margin-left: 8px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 1.05rem;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        thead {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        th, td {
+            padding: 18px;
+            text-align: right;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            font-weight: 700;
+            font-size: 1.15rem;
+        }
+
+        tbody tr:hover {
+            background: #f5f5f5;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .timeline {
+            position: relative;
+            padding-right: 40px;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 40px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            right: -32px;
+            top: 8px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #667eea;
+            border: 3px solid white;
+            box-shadow: 0 0 0 3px #667eea;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            right: -25px;
+            top: 24px;
+            width: 2px;
+            height: calc(100% - 16px);
+            background: #667eea;
+        }
+
+        .timeline-item:last-child::after {
+            display: none;
+        }
+
+        .timeline-content {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 12px;
+            border-right: 4px solid #667eea;
+        }
+
+        .phase-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .phase-number {
+            background: #667eea;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 900;
+        }
+
+        .phase-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .cost-box {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(40, 167, 69, 0.3);
+        }
+
+        .cost-box .amount {
+            font-size: 3rem;
+            font-weight: 900;
+            margin: 15px 0;
+        }
+
+        .cost-box .label {
+            font-size: 1.2rem;
+            opacity: 0.95;
+        }
+
+        .pros-cons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin: 25px 0;
+        }
+
+        .pros, .cons {
+            padding: 25px;
+            border-radius: 12px;
+        }
+
+        .pros {
+            background: #d4edda;
+            border-right: 5px solid #28a745;
+        }
+
+        .cons {
+            background: #f8d7da;
+            border-right: 5px solid #dc3545;
+        }
+
+        .pros h4, .cons h4 {
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .tech-stack {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .tech-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-top: 4px solid #667eea;
+            text-align: center;
+        }
+
+        .tech-card .tech-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .tech-card h4 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: #667eea;
+        }
+
+        .footer {
+            background: #1a1a1a;
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .footer p {
+            color: #ccc;
+            margin-bottom: 10px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-top: 20px;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+            transition: transform 0.3s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+        }
+
+        .warning-banner {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .warning-banner strong {
+            color: #856404;
+            font-size: 1.2rem;
+        }
+
+        @media print {
+            /* Hide browser's default header/footer with URL */
+            @page {
+                margin: 15mm;
+                size: A4;
+            }
+
+            body {
+                background: white;
+                padding: 0;
+                margin: 0;
+            }
+
+            .container {
+                box-shadow: none;
+                border-radius: 0;
+            }
+
+            .cta-button {
+                display: none;
+            }
+
+            .section {
+                page-break-inside: avoid;
+            }
+
+            /* Hide print button */
+            button {
+                display: none !important;
+            }
+
+            /* Better spacing for PDF */
+            .header {
+                page-break-after: avoid;
+            }
+
+            .timeline-item {
+                page-break-inside: avoid;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                padding: 30px 20px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .pros-cons {
+                grid-template-columns: 1fr;
+            }
+
+            .tech-stack {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🤖 خطة تنفيذ نظام الذكاء الاصطناعي</h1>
+            <div class="subtitle">PostMaker AI - منصة توليد التصاميم الاحترافية</div>
+            <div class="date">📅 التاريخ: 6 فبراير 2026</div>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            
+            <!-- Executive Summary -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="icon">📋</span>
+                    الملخص التنفيذي
+                </h2>
+                <div class="box box-primary">
+                    <p><strong>الهدف:</strong> تطوير نظام ذكاء اصطناعي لتوليد تصاميم بوسترات احترافية مع <span class="highlight">دعم كامل للنصوص العربية بوضوح 100%</span></p>
+                    <p><strong>التقنية:</strong> Stable Diffusion (عبر Replicate API) + Canvas للنصوص العربية</p>
+                    <p><strong>المدة:</strong> 10-17 يوم للتطوير الكامل (قد تكتمل في 10 أيام مع تطوير سريع ⚡)</p>
+                    <p><strong>التكلفة:</strong> رخيصة جداً - $0.0023 للتصميم الواحد (~0.008 ريال)</p>
+                </div>
+            </div>
+
+            <!-- How It Works -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="icon">⚙️</span>
+                    كيف يعمل النظام؟
+                </h2>
+                <div class="box">
+                    <h3>🔄 سير العمل (Workflow):</h3>
+                    <ol>
+                        <li><strong>المستخدم يدخل البيانات:</strong> العنوان، الوصف، السعر، الصورة</li>
+                        <li><strong>AI يولد خلفية احترافية:</strong> بدون نصوص، فقط تصميم جمالي (3-5 ثوانٍ)</li>
+                        <li><strong>Canvas يضيف النصوص العربية:</strong> بخطوط واضحة وتأثيرات احترافية</li>
+                        <li><strong>دمج الصور والشعارات:</strong> إضافة صورة المنتج أو الشعار</li>
+                        <li><strong>التصدير:</strong> PNG عالي الجودة جاهز للنشر</li>
+                    </ol>
+                </div>
+
+                <div class="tech-stack">
+                    <div class="tech-card">
+                        <div class="tech-icon">🎨</div>
+                        <h4>Stable Diffusion XL</h4>
+                        <p>توليد خلفيات احترافية فائقة الجودة</p>
+                    </div>
+                    <div class="tech-card">
+                        <div class="tech-icon">🌐</div>
+                        <h4>Replicate API</h4>
+                        <p>منصة سحابية سريعة وموثوقة</p>
+                    </div>
+                    <div class="tech-card">
+                        <div class="tech-icon">✍️</div>
+                        <h4>HTML5 Canvas</h4>
+                        <p>رسم النصوص العربية بوضوح تام</p>
+                    </div>
+                    <div class="tech-card">
+                        <div class="tech-icon">📦</div>
+                        <h4>ImgBB</h4>
+                        <p>تخزين الصور سحابياً (مجاني)</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Arabic Support -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="icon">🔤</span>
+                    دعم اللغة العربية
+                </h2>
+                
+                <div class="warning-banner">
+                    <strong>⚠️ ملاحظة مهمة جداً</strong><br>
+                    جميع أدوات AI (DALL-E, Midjourney, Stable Diffusion) لا تدعم النصوص العربية بشكل جيد!
+                </div>
+
+                <div class="box box-success">
+                    <h3>✅ حلنا الذكي:</h3>
+                    <p>نستخدم <strong>استراتيجية هجينة (Hybrid)</strong>:</p>
+                    <ul>
+                        <li><strong>AI للخلفيات فقط:</strong> بدون أي نصوص</li>
+                        <li><strong>Canvas للنصوص:</strong> نرسم النصوص العربية برمجياً بوضوح 100%</li>
+                    </ul>
+                </div>
+
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>✅ المميزات</h4>
+                        <ul>
+                            <li>نصوص عربية واضحة تماماً</li>
+                            <li>خطوط احترافية (Cairo, Tajawal, Amiri)</li>
+                            <li>تحكم كامل بالألوان والظلال</li>
+                            <li>تأثيرات بصرية احترافية</li>
+                            <li>دعم الاتجاه من اليمين لليسار (RTL)</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>❌ لماذا لا نستخدم AI مباشرة؟</h4>
+                        <ul>
+                            <li>الحروف تظهر منفصلة</li>
+                            <li>الكلمات مقلوبة أو مشوهة</li>
+                            <li>غير واضحة للقراءة</li>
+                            <li>لا تدعم التشكيل</li>
+                            <li>نتائج غير موثوقة</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="box box-info">
+                    <h3>📌 النتيجة النهائية:</h3>
+                    <p style="font-size: 1.3rem; text-align: center; font-weight: 700; color: #17a2b8;">
+                        خلفية AI احترافية + نصوص عربية مثالية = تصميم متكامل 🎯
+                    </p>
+                </div>
+            </div>
+
+            <!-- Cost Analysis -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="icon">💰</span>
+                    تحليل التكلفة
+                </h2>
+
+                <div class="cost-box">
+                    <div class="label">تكلفة التصميم الواحد</div>
+                    <div class="amount">$0.0023</div>
+                    <div class="label">≈ 0.008 ريال سعودي</div>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>عدد التصاميم</th>
+                            <th>التكلفة بالدولار</th>
+                            <th>التكلفة بالريال</th>
+                            <th>الاستخدام</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>100 تصميم</td>
+                            <td>$0.23</td>
+                            <td>~0.86 ريال</td>
+                            <td>اختبارات أولية</td>
+                        </tr>
+                        <tr>
+                            <td>500 تصميم</td>
+                            <td>$1.15</td>
+                            <td>~4.30 ريال</td>
+                            <td>شهر صغير</td>
+                        </tr>
+                        <tr>
+                            <td>1,000 تصميم</td>
+                            <td>$2.30</td>
+                            <td>~8.60 ريال</td>
+                            <td>شهر متوسط</td>
+                        </tr>
+                        <tr>
+                            <td>5,000 تصميم</td>
+                            <td>$11.50</td>
+                            <td>~43 ريال</td>
+                            <td>شهر نشط</td>
+                        </tr>
+                        <tr style="background: #d4edda; font-weight: 700;">
+                            <td>10,000 تصميم</td>
+                            <td>$23</td>
+                            <td>~86 ريال</td>
+                            <td>نمو قوي</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="box box-warning">
+                    <h3>⚡ مقارنة بالبدائل:</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>الخدمة</th>
+                                <th>التكلفة/صورة</th>
+                                <th>دعم العربية</th>
+                                <th>الجودة</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="background: #d4edda;">
+                                <td><strong>Replicate + Canvas</strong></td>
+                                <td>$0.0023</td>
+                                <td>✅ ممتاز 100%</td>
+                                <td>⭐⭐⭐⭐⭐</td>
+                            </tr>
+                            <tr>
+                                <td>DALL-E 3 (OpenAI)</td>
+                                <td>$0.040</td>
+                                <td>❌ ضعيف</td>
+                                <td>⭐⭐⭐⭐⭐</td>
+                            </tr>
+                            <tr>
+                                <td>Leonardo.ai</td>
+                                <td>مجاني محدود</td>
+                                <td>❌ ضعيف</td>
+                                <td>⭐⭐⭐⭐</td>
+                            </tr>
+                            <tr>
+                                <td>Midjourney</td>
+                                <td>$10/شهر</td>
+                                <td>❌ ضعيف</td>
+                                <td>⭐⭐⭐⭐⭐</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p style="text-align: center; margin-top: 20px; font-weight: 700; color: #856404;">
+                        🏆 حلنا هو الأرخص والأفضل لدعم العربية!
+                    </p>
+                </div>
+            </div>
+
+            <!-- Implementation Timeline -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="icon">📅</span>
+                    الجدول الزمني للتنفيذ
+                </h2>
+
+                <div class="box box-success" style="text-align: center;">
+                    <h3>⚡ تطوير سريع ومكثف</h3>
+                    <p style="font-size: 1.2rem;"><strong>الجدول الزمني المتوقع: 10-17 يوم</strong></p>
+                    <p>مع خبرة المبرمج وسرعة التنفيذ، قد يكتمل المشروع في <span class="highlight">10 أيام</span> أو أقل!</p>
+                    <p style="margin-top: 10px; opacity: 0.85;">📍 الحد الأقصى: 15-17 يوم لضمان الجودة العالية</p>
+                </div>
+
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="phase-header">
+                                <div class="phase-number">1</div>
+                                <div class="phase-title">المرحلة التحضيرية (يوم 1-3)</div>
+                            </div>
+                            <ul>
+                                <li>إنشاء حساب Replicate وإضافة API Key</li>
+                                <li>اختبار API وتحديد المعاملات المثلى</li>
+                                <li>تصميم واجهة المستخدم (UI/UX)</li>
+                                <li>إعداد البنية التحتية للـ Backend</li>
+                            </ul>
+                            <p><strong>المخرجات:</strong> نظام جاهز للتطوير + Replicate يعمل</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="phase-header">
+                                <div class="phase-number">2</div>
+                                <div class="phase-title">التطوير الأساسي (يوم 4-10)</div>
+                            </div>
+                            <ul>
+                                <li>تطوير API للتواصل مع Replicate</li>
+                                <li>بناء نظام Canvas للنصوص العربية</li>
+                                <li>دمج توليد الخلفيات + النصوص (Hybrid System)</li>
+                                <li>إضافة دعم الصور والشعارات</li>
+                                <li>نظام التصدير بجودات متعددة</li>
+                                <li>التكامل مع ImgBB للتخزين</li>
+                            </ul>
+                            <p><strong>المخرجات:</strong> نظام عامل بالكامل - MVP جاهز</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="phase-header">
+                                <div class="phase-number">3</div>
+                                <div class="phase-title">التحسين والاختبار (يوم 11-14)</div>
+                            </div>
+                            <ul>
+                                <li>اختبار مكثف مع نصوص عربية متنوعة</li>
+                                <li>تحسين الأداء والسرعة (Optimization)</li>
+                                <li>إضافة مكتبة Prompts جاهزة (9 فئات × 5 أساليب)</li>
+                                <li>تحسين جودة المخرجات</li>
+                                <li>معالجة الأخطاء والـ Edge Cases</li>
+                                <li>اختبار على متصفحات مختلفة</li>
+                            </ul>
+                            <p><strong>المخرجات:</strong> نظام محسّن ومستقر - Production Ready</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <div class="phase-header">
+                                <div class="phase-number">4</div>
+                                <div class="phase-title">المميزات الإضافية (يوم 15-17)</div>
+                            </div>
+                            <ul>
+                                <li>نظام حفظ التصاميم (Design History)</li>
+                                <li>مكتبة القوالب AI الجاهزة</li>
+                                <li>تصدير متعدد الصيغ والمقاسات (11 preset)</li>
+                                <li>إضافة QR Code تلقائي</li>
+                                <li>نظام Brand Kit (الخطوط والألوان)</li>
+                                <li>توثيق الكود والـ README</li>
+                            </ul>
+                            <p><strong>المخرجات:</strong> منصة احترافية متكاملة 🚀</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Technical Details -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="icon">🔧</span>
+                    التفاصيل التقنية
+                </h2>
+
+                <div class="box">
+                    <h3>📦 المكونات:</h3>
+                    <ul>
+                        <li><strong>Backend:</strong> Node.js + Express</li>
+                        <li><strong>AI Service:</strong> Replicate API + Stable Diffusion XL</li>
+                        <li><strong>Frontend:</strong> HTML5 Canvas + JavaScript</li>
+                        <li><strong>Storage:</strong> ImgBB (للصور النهائية)</li>
+                        <li><strong>Fonts:</strong> Cairo, Tajawal, Amiri (خطوط عربية)</li>
+                    </ul>
+                </div>
+
+                <div class="box">
+                    <h3>⚡ المواصفات:</h3>
+                    <ul>
+                        <li>دقة الإخراج: 1024x1024 (قابلة للزيادة)</li>
+                        <li>زمن التوليد: 3-5 ثوانٍ</li>
+                        <li>صيغ التصدير: PNG, JPG, WebP</li>
+                        <li>الحد الأقصى لحجم الصورة: 5MB</li>
+                        <li>دعم: عربي، إنجليزي</li>
+                    </ul>
+                </div>
+
+                <div class="box">
+                    <h3>🎨 قدرات التخصيص:</h3>
+                    <ul>
+                        <li>9 فئات جاهزة (مطعم، كافيه، سوبرماركت، إلخ)</li>
+                        <li>5 أساليب تصميم (عصري، كلاسيكي، بسيط، فاخر، ملون)</li>
+                        <li>تخصيص كامل: الألوان، الخطوط، المواقع، الأحجام</li>
+                        <li>إضافة صور خاصة أو شعارات</li>
+                        <li>تأثيرات بصرية: ظلال، إضاءة، تدرجات</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Success Metrics -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="icon">📊</span>
+                    مؤشرات النجاح
+                </h2>
+
+                <div class="box box-success">
+                    <h3>✅ معايير الجودة:</h3>
+                    <ul>
+                        <li>وضوح النصوص العربية: <strong>100%</strong></li>
+                        <li>جودة الخلفيات: <strong>⭐⭐⭐⭐⭐</strong></li>
+                        <li>زمن التوليد: <strong>أقل من 5 ثوانٍ</strong></li>
+                        <li>معدل النجاح: <strong>99%+</strong></li>
+                        <li>رضا المستخدمين: <strong>هدفنا 95%+</strong></li>
+                    </ul>
+                </div>
+
+                <div class="box box-info">
+                    <h3>📈 أهداف الأداء:</h3>
+                    <ul>
+                        <li>القدرة على توليد 1000+ تصميم/يوم</li>
+                        <li>توفر النظام (Uptime): 99.9%</li>
+                        <li>زمن استجابة: أقل من 1 ثانية</li>
+                        <li>دعم متزامن لـ 50 مستخدم</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Risks and Mitigation -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="icon">⚠️</span>
+                    المخاطر وخطط التعامل معها
+                </h2>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>المخاطرة</th>
+                            <th>الاحتمال</th>
+                            <th>الأثر</th>
+                            <th>خطة التعامل</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>توقف Replicate API</td>
+                            <td>منخفض</td>
+                            <td>عالٍ</td>
+                            <td>نظام احتياطي + Cache للنتائج</td>
+                        </tr>
+                        <tr>
+                            <td>بطء في التوليد</td>
+                            <td>متوسط</td>
+                            <td>متوسط</td>
+                            <td>Queue system + تحسين المعاملات</td>
+                        </tr>
+                        <tr>
+                            <td>ارتفاع التكاليف</td>
+                            <td>منخفض</td>
+                            <td>متوسط</td>
+                            <td>مراقبة مستمرة + حدود استخدام</td>
+                        </tr>
+                        <tr>
+                            <td>مشاكل في الخطوط العربية</td>
+                            <td>منخفض</td>
+                            <td>عالٍ</td>
+                            <td>اختبار مكثف + خطوط احتياطية</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Next Steps -->
+            <div class="section">
+                <h2 class="section-title">
+                    <span class="icon">🚀</span>
+                    الخطوات التالية
+                </h2>
+
+                <div class="box box-primary">
+                    <h3>لبدء التنفيذ الفوري:</h3>
+                    <ol>
+                        <li><strong>الموافقة على الخطة:</strong> مراجعة واعتماد هذه الوثيقة</li>
+                        <li><strong>إنشاء حساب Replicate:</strong> التسجيل وإضافة $5 رصيد أولي</li>
+                        <li><strong>اختبار أولي:</strong> توليد 10-20 تصميم تجريبي (يوم 1)</li>
+                        <li><strong>بدء التطوير:</strong> المرحلة الأولى فوراً (يوم 2)</li>
+                        <li><strong>متابعة يومية:</strong> تقرير تقدم يومي للعميل</li>
+                    </ol>
+                </div>
+
+                
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+        
+    </div>
+
+    <script>
+        // Print to PDF functionality
+        window.onload = function() {
+            // Add instructions banner
+            const banner = document.createElement('div');
+            banner.innerHTML = `
+                <div style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: #fff3cd; border: 2px solid #ffc107; padding: 15px 25px; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 2000; max-width: 600px; text-align: center; font-family: 'Cairo', sans-serif;">
+                    <div style="font-size: 1.1rem; font-weight: 700; color: #856404; margin-bottom: 8px;">⚠️ تعليمات مهمة قبل الحفظ</div>
+                    <div style="font-size: 0.95rem; color: #856404;">
+                        عند حفظ PDF، تأكد من <strong>تعطيل "Headers and footers"</strong> من إعدادات الطباعة
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(banner);
+
+            // Add print button
+            const printBtn = document.createElement('button');
+            printBtn.innerHTML = '📄 حفظ كـ PDF';
+            printBtn.style.cssText = `
+                position: fixed;
+                bottom: 30px;
+                left: 30px;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                border: none;
+                padding: 15px 30px;
+                border-radius: 50px;
+                font-size: 1.1rem;
+                font-weight: 700;
+                cursor: pointer;
+                box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+                z-index: 1000;
+                font-family: 'Cairo', sans-serif;
+            `;
+            printBtn.onclick = () => {
+                // Show alert with instructions
+                alert('📝 تعليمات الحفظ:\n\n1. في نافذة الطباعة، اضغط "More Settings"\n2. ابحث عن "Headers and footers"\n3. تأكد من تعطيله (OFF) ❌\n4. اضغط "Save"\n\nبهذه الطريقة لن يظهر URL في PDF');
+                window.print();
+            };
+            document.body.appendChild(printBtn);
+        };
+    </script>
+</body>
+</html>
