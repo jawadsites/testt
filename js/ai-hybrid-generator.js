@@ -169,45 +169,62 @@ class AIHybridGenerator {
     // ==================== 
     loadBackgroundToCanvas(canvas, imageUrl, width, height) {
         return new Promise((resolve, reject) => {
-            fabric.Image.fromURL(imageUrl, (img) => {
-                if (!img) {
-                    reject(new Error('فشل في تحميل الخلفية'));
+            // Proxy the image through our server to avoid CORS issues
+            const proxyUrl = `${this.apiBase.replace('/api', '')}/api/proxy-image?url=${encodeURIComponent(imageUrl)}`;
+            console.log('Loading AI background via proxy:', proxyUrl);
+            
+            fabric.Image.fromURL(proxyUrl, (img) => {
+                if (!img || !img.width) {
+                    console.error('Fabric.js failed to load image, trying direct URL...');
+                    // Fallback: try direct URL
+                    fabric.Image.fromURL(imageUrl, (img2) => {
+                        if (!img2 || !img2.width) {
+                            reject(new Error('فشل في تحميل الخلفية'));
+                            return;
+                        }
+                        this._addBackgroundToCanvas(canvas, img2, width, height);
+                        resolve(img2);
+                    }, { crossOrigin: 'anonymous' });
                     return;
                 }
 
-                // Scale to fill canvas
-                const scaleX = width / img.width;
-                const scaleY = height / img.height;
-                const scale = Math.max(scaleX, scaleY);
-
-                img.set({
-                    left: width / 2,
-                    top: height / 2,
-                    originX: 'center',
-                    originY: 'center',
-                    scaleX: scale,
-                    scaleY: scale,
-                    selectable: false,
-                    evented: false
-                });
-
-                canvas.add(img);
-
-                // Add subtle overlay for text readability
-                const overlay = new fabric.Rect({
-                    left: 0,
-                    top: 0,
-                    width: width,
-                    height: height,
-                    fill: 'rgba(0, 0, 0, 0.25)',
-                    selectable: false,
-                    evented: false
-                });
-                canvas.add(overlay);
-
+                this._addBackgroundToCanvas(canvas, img, width, height);
                 resolve(img);
             }, { crossOrigin: 'anonymous' });
         });
+    }
+
+    _addBackgroundToCanvas(canvas, img, width, height) {
+        // Scale to fill canvas
+        const scaleX = width / img.width;
+        const scaleY = height / img.height;
+        const scale = Math.max(scaleX, scaleY);
+
+        img.set({
+            left: width / 2,
+            top: height / 2,
+            originX: 'center',
+            originY: 'center',
+            scaleX: scale,
+            scaleY: scale,
+            selectable: false,
+            evented: false
+        });
+
+        canvas.add(img);
+
+        // Add subtle overlay for text readability
+        const overlay = new fabric.Rect({
+            left: 0,
+            top: 0,
+            width: width,
+            height: height,
+            fill: 'rgba(0, 0, 0, 0.25)',
+            selectable: false,
+            evented: false
+        });
+        canvas.add(overlay);
+    }
     }
 
     // ==================== 

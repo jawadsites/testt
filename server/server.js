@@ -27,6 +27,33 @@ app.use('/api/auth', authRoutes);
 app.use('/api/templates', templateRoutes);
 app.use('/api/ai', aiRoutes);
 
+// Image proxy to avoid CORS issues with AI-generated images
+app.get('/api/proxy-image', async (req, res) => {
+    try {
+        const imageUrl = req.query.url;
+        if (!imageUrl) {
+            return res.status(400).send('Missing url parameter');
+        }
+        // Only allow replicate.delivery URLs
+        if (!imageUrl.includes('replicate.delivery') && !imageUrl.includes('pbxt.replicate.delivery')) {
+            return res.status(403).send('URL not allowed');
+        }
+        const response = await fetch(imageUrl);
+        if (!response.ok) {
+            return res.status(response.status).send('Failed to fetch image');
+        }
+        const contentType = response.headers.get('content-type') || 'image/png';
+        res.setHeader('Content-Type', contentType);
+        res.setHeader('Cache-Control', 'public, max-age=3600');
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        const buffer = await response.arrayBuffer();
+        res.send(Buffer.from(buffer));
+    } catch (error) {
+        console.error('Proxy error:', error.message);
+        res.status(500).send('Proxy error');
+    }
+});
+
 // Serve main app
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'index.html'));
