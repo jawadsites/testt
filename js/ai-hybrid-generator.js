@@ -225,7 +225,6 @@ class AIHybridGenerator {
         });
         canvas.add(overlay);
     }
-    }
 
     // ==================== 
     // Full Hybrid Generation: AI Background + Arabic Text
