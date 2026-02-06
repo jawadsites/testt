@@ -959,12 +959,12 @@ async function startAIGeneration(generateBtn) {
         
         const theme = generator.getTheme();
         generator.drawBusinessName(theme);
-        generator.drawProductSection(theme);
         
         if (generator.uploadedImage) {
             await generator.drawProductImage(theme);
         }
         
+        generator.drawProductSection(theme);
         generator.drawPriceBadge(theme);
         generator.drawOfferBanner(theme);
         generator.drawContactSection(theme);
@@ -1094,11 +1094,12 @@ function resetAISteps() {
 }
 
 function showResultModal() {
-    const resultModal = document.getElementById('resultModal');
+    const resultPage = document.getElementById('resultPage');
     const resultCanvas = document.getElementById('resultCanvas');
     
-    if (resultModal) {
-        resultModal.classList.add('active');
+    if (resultPage) {
+        resultPage.style.display = 'block';
+        document.body.style.overflow = 'hidden';
     }
     
     // Copy poster to result canvas using Fabric.js
@@ -1106,6 +1107,11 @@ function showResultModal() {
         // Initialize result canvas as Fabric canvas if not already
         if (!resultCanvas.fabricCanvas) {
             resultCanvas.fabricCanvas = new fabric.Canvas(resultCanvas, {
+                width: generator.canvas.width,
+                height: generator.canvas.height
+            });
+        } else {
+            resultCanvas.fabricCanvas.setDimensions({
                 width: generator.canvas.width,
                 height: generator.canvas.height
             });
@@ -1120,7 +1126,14 @@ function showResultModal() {
         });
     }
     
-    // Download button in result modal
+    function hideResultPage() {
+        if (resultPage) {
+            resultPage.style.display = 'none';
+            document.body.style.overflow = '';
+        }
+    }
+    
+    // Download button
     const downloadResultBtn = document.getElementById('downloadBtn');
     if (downloadResultBtn) {
         downloadResultBtn.onclick = () => {
@@ -1133,7 +1146,7 @@ function showResultModal() {
     const newDesignBtn = document.getElementById('newDesignBtn');
     if (newDesignBtn) {
         newDesignBtn.onclick = () => {
-            resultModal?.classList.remove('active');
+            hideResultPage();
             resetForm();
             showStep(1);
         };
@@ -1143,16 +1156,16 @@ function showResultModal() {
     const tryAnotherBtn = document.getElementById('tryAnotherBtn');
     if (tryAnotherBtn) {
         tryAnotherBtn.onclick = () => {
-            resultModal?.classList.remove('active');
+            hideResultPage();
             showStep(2);
         };
     }
     
-    // Close button
-    const closeBtn = resultModal?.querySelector('.modal-close');
-    if (closeBtn) {
-        closeBtn.onclick = () => {
-            resultModal.classList.remove('active');
+    // Back to editor button
+    const backBtn = document.getElementById('backToEditor');
+    if (backBtn) {
+        backBtn.onclick = () => {
+            hideResultPage();
         };
     }
 }
@@ -1418,7 +1431,7 @@ window.loadHistoryDesign = function(designId) {
         
         // Close modal and show result
         document.querySelector('.history-modal')?.closest('.modal-overlay').remove();
-        document.getElementById('resultModal').classList.add('active');
+        showResultModal();
         
         showNotification('✅ تم تحميل التصميم بنجاح!', 'success');
     }
@@ -1433,16 +1446,16 @@ window.deleteHistoryDesign = function(designId) {
     }
 };
 
-// Initialize professional features when result modal opens
-const resultModal = document.getElementById('resultModal');
-if (resultModal) {
+// Initialize professional features when result page opens
+const resultPageEl = document.getElementById('resultPage');
+if (resultPageEl) {
     const observer = new MutationObserver((mutations) => {
         mutations.forEach((mutation) => {
-            if (mutation.target.classList.contains('active')) {
+            if (resultPageEl.style.display === 'block') {
                 setTimeout(() => initProfessionalFeatures(), 100);
             }
         });
     });
     
-    observer.observe(resultModal, { attributes: true, attributeFilter: ['class'] });
+    observer.observe(resultPageEl, { attributes: true, attributeFilter: ['style'] });
 }

@@ -217,8 +217,8 @@ class PosterGenerator {
                 
                 const theme = this.getTheme();
                 this.drawBusinessName(theme);
-                this.drawProductSection(theme);
                 await this.drawProductImage(theme);
+                this.drawProductSection(theme);
                 this.drawPriceBadge(theme);
                 this.drawOfferBanner(theme);
                 this.drawContactSection(theme);
@@ -236,8 +236,8 @@ class PosterGenerator {
         this.drawProfessionalBackground(theme);
         this.drawTopSection(theme);
         this.drawBusinessName(theme);
-        this.drawProductSection(theme);
         await this.drawProductImage(theme);
+        this.drawProductSection(theme);
         this.drawPriceBadge(theme);
         this.drawOfferBanner(theme);
         this.drawContactSection(theme);
@@ -431,7 +431,7 @@ class PosterGenerator {
     // ==========================================
     drawProductSection(theme) {
         const productName = this.fixArabicText(this.data.productName || 'اسم المنتج');
-        const productY = this.height * 0.27;
+        const productY = this.height * 0.54;
         
         // Separator line with diamond
         const lineW = this.width * 0.4;
@@ -484,7 +484,7 @@ class PosterGenerator {
     // LAYER 5: Product Image - Professional Frame
     // ==========================================
     async drawProductImage(theme) {
-        const imgPosY = this.layout.imagePositionY || 0.46;
+        const imgPosY = this.layout.imagePositionY || 0.33;
         const imgPosX = this.layout.imagePositionX || 0.5;
         const imgScale = this.layout.imageScale || 0.35;
         

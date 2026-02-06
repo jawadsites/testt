@@ -649,97 +649,110 @@
         </div>
     </div>
 
-    <!-- Result Modal -->
-    <div class="modal-overlay" id="resultModal">
-        <div class="result-modal">
-            <button class="modal-close" id="closeResult">
-                <i class="fas fa-times"></i>
-            </button>
-            
-            <div class="result-content">
-                <div class="result-preview">
+    <!-- Result Page (Full Width) -->
+    <div class="result-page" id="resultPage" style="display: none;">
+        <div class="result-page-header">
+            <div class="container">
+                <button class="btn btn-ghost" id="backToEditor">
+                    <i class="fas fa-arrow-right"></i>
+                    العودة للمحرر
+                </button>
+                <h2><i class="fas fa-check-circle"></i> تم إنشاء البوستر بنجاح!</h2>
+                <p>يمكنك تحميل التصميم أو إنشاء تصميم جديد</p>
+            </div>
+        </div>
+        
+        <div class="result-page-body">
+            <div class="result-page-grid">
+                <!-- Preview Section -->
+                <div class="result-page-preview">
                     <canvas id="resultCanvas"></canvas>
                 </div>
                 
-                <div class="result-actions">
-                    <h3>تم إنشاء البوستر بنجاح! 🎉</h3>
-                    <p>يمكنك الآن تحميل التصميم أو إنشاء تصميم جديد</p>
-                    
-                    <div class="action-buttons">
-                        <button class="btn btn-primary btn-lg" id="downloadBtn">
-                            <i class="fas fa-download"></i>
-                            تحميل الصورة
-                        </button>
-                        <button class="btn btn-success btn-lg" id="exportAdvancedBtn">
-                            <i class="fas fa-file-export"></i>
-                            تصدير متقدم
-                        </button>
-                        <button class="btn btn-outline btn-lg" id="newDesignBtn">
-                            <i class="fas fa-plus"></i>
-                            تصميم جديد
-                        </button>
-                    </div>
-                    
-                    <!-- Advanced Export Options -->
-                    <div class="export-options" id="exportOptions" style="display: none;">
-                        <h4><i class="fas fa-magic"></i> خيارات التصدير المتقدمة</h4>
-                        
-                        <div class="export-section">
-                            <label>📐 حجم التصميم:</label>
-                            <select id="exportPreset" class="form-select">
-                                <option value="instagram_post">Instagram Post (1080x1080)</option>
-                                <option value="instagram_story">Instagram Story (1080x1920)</option>
-                                <option value="facebook_post">Facebook Post (1200x630)</option>
-                                <option value="facebook_cover">Facebook Cover (820x312)</option>
-                                <option value="twitter_post">Twitter Post (1200x675)</option>
-                                <option value="linkedin_post">LinkedIn Post (1200x627)</option>
-                                <option value="pinterest_pin">Pinterest Pin (1000x1500)</option>
-                                <option value="youtube_thumbnail">YouTube Thumbnail (1280x720)</option>
-                                <option value="whatsapp_status">WhatsApp Status (1080x1920)</option>
-                                <option value="a4_portrait">A4 Portrait للطباعة</option>
-                                <option value="a4_landscape">A4 Landscape للطباعة</option>
-                            </select>
-                        </div>
-                        
-                        <div class="export-section">
-                            <label>🎨 صيغة الملف:</label>
-                            <select id="exportFormat" class="form-select">
-                                <option value="png">PNG (أعلى جودة)</option>
-                                <option value="jpg">JPG (حجم أصغر)</option>
-                                <option value="webp">WebP (للويب)</option>
-                            </select>
-                        </div>
-                        
-                        <div class="export-section">
-                            <button class="btn btn-primary" id="executeExport">
+                <!-- Actions Section -->
+                <div class="result-page-actions">
+                    <div class="action-card">
+                        <h3><i class="fas fa-download"></i> تحميل التصميم</h3>
+                        <div class="action-buttons-stack">
+                            <button class="btn btn-primary btn-lg btn-full" id="downloadBtn">
                                 <i class="fas fa-download"></i>
-                                تحميل بالإعدادات المحددة
+                                تحميل PNG (جودة عالية)
                             </button>
-                            <button class="btn btn-outline" id="batchExport">
-                                <i class="fas fa-layer-group"></i>
-                                تحميل جميع المقاسات
+                            <button class="btn btn-success btn-lg btn-full" id="exportAdvancedBtn">
+                                <i class="fas fa-file-export"></i>
+                                خيارات تصدير متقدمة
+                            </button>
+                        </div>
+                        
+                        <!-- Advanced Export Options -->
+                        <div class="export-options" id="exportOptions" style="display: none;">
+                            <h4><i class="fas fa-magic"></i> خيارات التصدير المتقدمة</h4>
+                            
+                            <div class="export-section">
+                                <label>📐 حجم التصميم:</label>
+                                <select id="exportPreset" class="form-select">
+                                    <option value="instagram_post">Instagram Post (1080x1080)</option>
+                                    <option value="instagram_story">Instagram Story (1080x1920)</option>
+                                    <option value="facebook_post">Facebook Post (1200x630)</option>
+                                    <option value="facebook_cover">Facebook Cover (820x312)</option>
+                                    <option value="twitter_post">Twitter Post (1200x675)</option>
+                                    <option value="linkedin_post">LinkedIn Post (1200x627)</option>
+                                    <option value="pinterest_pin">Pinterest Pin (1000x1500)</option>
+                                    <option value="youtube_thumbnail">YouTube Thumbnail (1280x720)</option>
+                                    <option value="whatsapp_status">WhatsApp Status (1080x1920)</option>
+                                    <option value="a4_portrait">A4 Portrait للطباعة</option>
+                                    <option value="a4_landscape">A4 Landscape للطباعة</option>
+                                </select>
+                            </div>
+                            
+                            <div class="export-section">
+                                <label>🎨 صيغة الملف:</label>
+                                <select id="exportFormat" class="form-select">
+                                    <option value="png">PNG (أعلى جودة)</option>
+                                    <option value="jpg">JPG (حجم أصغر)</option>
+                                    <option value="webp">WebP (للويب)</option>
+                                </select>
+                            </div>
+                            
+                            <div class="export-section">
+                                <button class="btn btn-primary btn-full" id="executeExport">
+                                    <i class="fas fa-download"></i>
+                                    تحميل بالإعدادات المحددة
+                                </button>
+                                <button class="btn btn-outline btn-full" id="batchExport" style="margin-top: 0.5rem;">
+                                    <i class="fas fa-layer-group"></i>
+                                    تحميل جميع المقاسات
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="action-card">
+                        <h3><i class="fas fa-redo"></i> خيارات أخرى</h3>
+                        <div class="action-buttons-stack">
+                            <button class="btn btn-outline btn-lg btn-full" id="newDesignBtn">
+                                <i class="fas fa-plus"></i>
+                                تصميم جديد
+                            </button>
+                            <button class="btn btn-ghost btn-full" id="tryAnotherBtn">
+                                <i class="fas fa-sync-alt"></i>
+                                جرب قالب آخر
                             </button>
                         </div>
                     </div>
                     
-                    <div class="template-switch">
-                        <span>غير راضٍ؟</span>
-                        <button class="btn btn-ghost" id="tryAnotherBtn">
-                            <i class="fas fa-sync-alt"></i>
-                            جرب قالب آخر
-                        </button>
-                    </div>
-                    
-                    <!-- Design History -->
-                    <div class="design-history-toggle">
-                        <button class="btn btn-ghost btn-sm" id="showHistoryBtn">
-                            <i class="fas fa-history"></i>
-                            التصاميم السابقة
-                        </button>
-                        <button class="btn btn-ghost btn-sm" id="saveDesignBtn">
-                            <i class="fas fa-save"></i>
-                            حفظ التصميم
-                        </button>
+                    <div class="action-card">
+                        <h3><i class="fas fa-history"></i> الحفظ والسجل</h3>
+                        <div class="action-buttons-stack">
+                            <button class="btn btn-ghost btn-full" id="saveDesignBtn">
+                                <i class="fas fa-save"></i>
+                                حفظ التصميم
+                            </button>
+                            <button class="btn btn-ghost btn-full" id="showHistoryBtn">
+                                <i class="fas fa-history"></i>
+                                التصاميم السابقة
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
