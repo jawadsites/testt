@@ -50,7 +50,7 @@ router.post('/generate', async (req, res) => {
 
         res.json({
             success: true,
-            backgroundUrl,
+            imageUrl: backgroundUrl,
             category,
             style: style || 'modern',
             message: 'تم توليد الخلفية بنجاح'
@@ -117,8 +117,9 @@ router.post('/smart-generate', async (req, res) => {
             });
         }
 
-        const { data } = req.body;
-        if (!data) {
+        // Support both { data: {...} } and direct { category, description, ... } formats
+        const data = req.body.data || req.body;
+        if (!data || !data.category) {
             return res.status(400).json({
                 success: false,
                 message: 'يجب إرسال بيانات التصميم'
@@ -127,7 +128,7 @@ router.post('/smart-generate', async (req, res) => {
 
         // Smart style detection from data
         let style = 'modern';
-        const text = `${data.businessName || ''} ${data.productName || ''} ${data.offerText || ''}`.toLowerCase();
+        const text = `${data.businessName || ''} ${data.productName || ''} ${data.offerText || ''} ${data.description || ''}`.toLowerCase();
 
         if (text.includes('فاخر') || text.includes('premium') || text.includes('vip') || text.includes('حصري')) {
             style = 'luxury';
@@ -146,7 +147,7 @@ router.post('/smart-generate', async (req, res) => {
 
         res.json({
             success: true,
-            backgroundUrl,
+            imageUrl: backgroundUrl,
             detectedStyle: style,
             category: data.category || 'general',
             message: 'تم التوليد الذكي بنجاح'
