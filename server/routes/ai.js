@@ -22,7 +22,7 @@ router.get('/status', (req, res) => {
 /**
  * POST /api/ai/generate
  * Generate a single AI background
- * Body: { category, style, width, height, customPrompt }
+ * Body: { category, style, width, height, customPrompt, productName, description }
  */
 router.post('/generate', async (req, res) => {
     try {
@@ -33,7 +33,7 @@ router.post('/generate', async (req, res) => {
             });
         }
 
-        const { category, style, width, height, customPrompt } = req.body;
+        const { category, style, width, height, customPrompt, productName, description } = req.body;
 
         if (!category) {
             return res.status(400).json({
@@ -45,7 +45,7 @@ router.post('/generate', async (req, res) => {
         const backgroundUrl = await aiGenerator.generateBackground(
             category,
             style || 'modern',
-            { width, height, customPrompt }
+            { width, height, customPrompt, productName, description }
         );
 
         res.json({
@@ -142,7 +142,11 @@ router.post('/smart-generate', async (req, res) => {
 
         const backgroundUrl = await aiGenerator.generateBackground(
             data.category || 'general',
-            style
+            style,
+            {
+                productName: data.productName || '',
+                description: data.description || data.offerText || ''
+            }
         );
 
         res.json({

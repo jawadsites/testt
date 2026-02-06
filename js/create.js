@@ -910,15 +910,26 @@ async function startAIGeneration(generateBtn) {
         if (progressBar) progressBar.style.width = '20%';
         
         let bgResult;
-        if (customPrompt || (formData.productName && formData.productName.length > 3)) {
+        // Always pass product info for relevant backgrounds
+        const productInfo = {
+            productName: formData.productName || '',
+            description: formData.offerText || ''
+        };
+        
+        if (customPrompt) {
+            // Custom prompt mode - pass product info too
             bgResult = await aiGenerator.smartGenerate(
                 formData.category, 
-                customPrompt || (formData.productName + ' ' + (formData.offerText || ''))
+                customPrompt,
+                formData.productName,
+                formData.offerText
             );
         } else {
+            // Use generateBackground with product info for relevant AI images
             bgResult = await aiGenerator.generateBackground(
                 formData.category, 
-                style
+                style,
+                productInfo
             );
         }
         

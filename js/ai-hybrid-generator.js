@@ -31,8 +31,9 @@ class AIHybridGenerator {
 
     // ==================== 
     // Generate AI Background
+    // Now accepts productName and description for relevant backgrounds
     // ==================== 
-    async generateBackground(category, style = null, customPrompt = null) {
+    async generateBackground(category, style = null, options = {}) {
         if (this.isGenerating) {
             throw new Error('جاري إنشاء تصميم بالفعل');
         }
@@ -47,8 +48,15 @@ class AIHybridGenerator {
                 height: 1024
             };
 
-            if (customPrompt) {
-                requestBody.customPrompt = customPrompt;
+            // Add product info if provided
+            if (options.productName) {
+                requestBody.productName = options.productName;
+            }
+            if (options.description) {
+                requestBody.description = options.description;
+            }
+            if (options.customPrompt) {
+                requestBody.customPrompt = options.customPrompt;
             }
 
             const response = await fetch(`${this.apiBase}/ai/generate`, {
@@ -81,8 +89,9 @@ class AIHybridGenerator {
 
     // ==================== 
     // Smart Generate (auto-detect style from Arabic text)
+    // Accepts productName and description for relevant backgrounds
     // ==================== 
-    async smartGenerate(category, description) {
+    async smartGenerate(category, customPrompt, productName = '', offerText = '') {
         if (this.isGenerating) {
             throw new Error('جاري إنشاء تصميم بالفعل');
         }
@@ -95,7 +104,9 @@ class AIHybridGenerator {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     category: category,
-                    description: description,
+                    description: customPrompt,
+                    productName: productName,
+                    offerText: offerText,
                     width: 1024,
                     height: 1024
                 })
@@ -110,7 +121,7 @@ class AIHybridGenerator {
                     url: data.imageUrl,
                     category: category,
                     style: data.detectedStyle,
-                    description: description,
+                    description: customPrompt,
                     timestamp: new Date().toISOString()
                 });
                 return data;
