@@ -389,7 +389,7 @@ class PosterGenerator {
     // LAYER 3: Business Name - Large Professional
     // ==========================================
     drawBusinessName(theme) {
-        const businessName = this.data.businessName || 'اسم النشاط';
+        const businessName = this.fixArabicText(this.data.businessName || 'اسم النشاط');
         const titleFontSize = this.layout.titleSize || 58;
         const titleY = this.height * (this.layout.titlePositionY || 0.12);
         const titleX = this.width * (this.layout.titlePositionX || 0.5);
@@ -402,6 +402,8 @@ class PosterGenerator {
             fill: 'rgba(0,0,0,0.5)',
             fontFamily: 'Cairo, Tajawal, sans-serif',
             originX: 'center', originY: 'center',
+            textAlign: 'center',
+            direction: 'rtl',
             selectable: false
         }));
         
@@ -413,6 +415,8 @@ class PosterGenerator {
             fill: theme.bg[2],
             fontFamily: 'Cairo, Tajawal, sans-serif',
             originX: 'center', originY: 'center',
+            textAlign: 'center',
+            direction: 'rtl',
             selectable: false,
             shadow: new fabric.Shadow({
                 color: 'rgba(0,0,0,0.2)',
@@ -426,7 +430,7 @@ class PosterGenerator {
     // LAYER 4: Product Name - Glowing Featured
     // ==========================================
     drawProductSection(theme) {
-        const productName = this.data.productName || 'اسم المنتج';
+        const productName = this.fixArabicText(this.data.productName || 'اسم المنتج');
         const productY = this.height * 0.27;
         
         // Separator line with diamond
@@ -465,6 +469,8 @@ class PosterGenerator {
             fill: '#FFFFFF',
             fontFamily: 'Cairo, Tajawal, sans-serif',
             originX: 'center', originY: 'center',
+            textAlign: 'center',
+            direction: 'rtl',
             selectable: false,
             shadow: new fabric.Shadow({
                 color: this.hexToRgba(theme.accent[0], 0.5),
@@ -565,11 +571,13 @@ class PosterGenerator {
                 selectable: false
             }));
             
-            this.canvas.add(new fabric.Text('ارفع صورة المنتج', {
+            this.canvas.add(new fabric.Text(this.fixArabicText('ارفع صورة المنتج'), {
                 left: cx, top: cy + 40,
                 fontSize: 20, fill: theme.accent[0],
                 fontFamily: 'Cairo, Tajawal, sans-serif',
                 originX: 'center', originY: 'center',
+                textAlign: 'center',
+                direction: 'rtl',
                 selectable: false, opacity: 0.6
             }));
         }
@@ -634,6 +642,8 @@ class PosterGenerator {
             fill: theme.bg[0],
             fontFamily: 'Cairo, Tajawal, sans-serif',
             originX: 'center', originY: 'center',
+            textAlign: 'center',
+            direction: 'rtl',
             selectable: false
         }));
         
@@ -659,6 +669,8 @@ class PosterGenerator {
                 fill: '#FFFFFF',
                 fontFamily: 'Cairo, Tajawal, sans-serif',
                 originX: 'center', originY: 'center',
+                textAlign: 'center',
+                direction: 'rtl',
                 selectable: false
             }));
             
@@ -673,7 +685,7 @@ class PosterGenerator {
     // LAYER 7: Offer Banner
     // ==========================================
     drawOfferBanner(theme) {
-        const offerText = this.data.offerText || 'عرض خاص';
+        const offerText = this.fixArabicText(this.data.offerText || 'عرض خاص');
         const bannerY = this.height * 0.835;
         const bannerW = this.width * 0.55;
         const bannerH = 46;
@@ -704,6 +716,8 @@ class PosterGenerator {
             fill: theme.accent[0],
             fontFamily: 'Cairo, Tajawal, sans-serif',
             originX: 'center', originY: 'center',
+            textAlign: 'center',
+            direction: 'rtl',
             selectable: false,
             shadow: new fabric.Shadow({
                 color: this.hexToRgba(theme.accent[0], 0.4),
@@ -742,6 +756,8 @@ class PosterGenerator {
             fill: '#FFFFFF',
             fontFamily: 'Cairo, Tajawal, sans-serif',
             originX: 'center', originY: 'center',
+            textAlign: 'center',
+            direction: 'rtl',
             selectable: false
         }));
     }
@@ -750,7 +766,7 @@ class PosterGenerator {
     // LAYER 9: CTA Button - Full Width
     // ==========================================
     drawCTAButton(theme) {
-        const ctaText = this.data.ctaText || document.getElementById('ctaText')?.value || 'اطلب الآن';
+        const ctaText = this.fixArabicText(this.data.ctaText || document.getElementById('ctaText')?.value || 'اطلب الآن');
         const btnY = this.height * 0.955;
         const btnW = this.width * 0.88;
         const btnH = 56;
@@ -794,6 +810,8 @@ class PosterGenerator {
             fill: theme.bg[2] || '#000000',
             fontFamily: 'Cairo, Tajawal, sans-serif',
             originX: 'center', originY: 'center',
+            textAlign: 'center',
+            direction: 'rtl',
             selectable: false,
             charSpacing: 60
         }));
@@ -877,6 +895,21 @@ class PosterGenerator {
     // ==========================================
     // Utility functions
     // ==========================================
+    
+    // Fix Arabic text direction for Fabric.js
+    fixArabicText(text) {
+        if (!text) return text;
+        // Add Unicode RTL embedding marks for proper direction
+        const RTL_EMBED = '\u202B'; // Right-to-Left Embedding
+        const POP_DIR = '\u202C';   // Pop Directional Formatting
+        // Check if text contains Arabic characters
+        const hasArabic = /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/.test(text);
+        if (hasArabic) {
+            return RTL_EMBED + text + POP_DIR;
+        }
+        return text;
+    }
+    
     hexToRgba(hex, alpha) {
         if (!hex || hex.charAt(0) !== '#') return `rgba(139, 92, 246, ${alpha})`;
         const r = parseInt(hex.slice(1, 3), 16);
