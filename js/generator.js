@@ -421,8 +421,7 @@ class PosterGenerator {
             shadow: new fabric.Shadow({
                 color: 'rgba(0,0,0,0.2)',
                 blur: 4, offsetY: 2
-            }),
-            charSpacing: 50
+            })
         }));
     }
     
@@ -475,8 +474,7 @@ class PosterGenerator {
             shadow: new fabric.Shadow({
                 color: this.hexToRgba(theme.accent[0], 0.5),
                 blur: 15, offsetY: 0
-            }),
-            charSpacing: 30
+            })
         }));
     }
     
@@ -722,8 +720,7 @@ class PosterGenerator {
             shadow: new fabric.Shadow({
                 color: this.hexToRgba(theme.accent[0], 0.4),
                 blur: 10, offsetY: 0
-            }),
-            charSpacing: 40
+            })
         }));
     }
     
@@ -812,8 +809,7 @@ class PosterGenerator {
             originX: 'center', originY: 'center',
             textAlign: 'center',
             direction: 'rtl',
-            selectable: false,
-            charSpacing: 60
+            selectable: false
         }));
     }
     
@@ -896,16 +892,13 @@ class PosterGenerator {
     // Utility functions
     // ==========================================
     
-    // Fix Arabic text direction for Fabric.js
+    // Fix Arabic text for Fabric.js - reshape and reverse for proper display
     fixArabicText(text) {
         if (!text) return text;
-        // Add Unicode RTL embedding marks for proper direction
-        const RTL_EMBED = '\u202B'; // Right-to-Left Embedding
-        const POP_DIR = '\u202C';   // Pop Directional Formatting
         // Check if text contains Arabic characters
         const hasArabic = /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/.test(text);
-        if (hasArabic) {
-            return RTL_EMBED + text + POP_DIR;
+        if (hasArabic && typeof ArabicReshaper !== 'undefined') {
+            return ArabicReshaper.process(text);
         }
         return text;
     }

@@ -235,7 +235,7 @@ class AIGenerator {
         // Food items (restaurant/cafe)
         const foodMap = {
             'بيتزا': 'delicious pizza',
-            'برجر|همبرغر|همبرجر': 'gourmet burger',
+            'برجر|برغر|همبرغر|همبرجر|بيرغر|بيرجر': 'gourmet burger',
             'شاورما': 'shawarma wrap',
             'كباب': 'grilled kebab',
             'مشاوي': 'grilled meats',
