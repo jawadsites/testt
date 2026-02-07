@@ -1144,6 +1144,72 @@ function showResultModal() {
     // Populate editor fields with current form data
     populateEditorFields();
     
+    // ===== Section toggle handlers =====
+    document.querySelectorAll('.editor-section-toggle').forEach(toggle => {
+        toggle.addEventListener('click', () => {
+            const sectionId = toggle.dataset.section + 'Section';
+            const section = document.getElementById(sectionId);
+            if (!section) return;
+            const isCollapsed = section.classList.contains('collapsed');
+            if (isCollapsed) {
+                section.classList.remove('collapsed');
+                toggle.classList.add('active');
+            } else {
+                section.classList.add('collapsed');
+                toggle.classList.remove('active');
+            }
+        });
+    });
+    
+    // ===== Range input live value displays =====
+    const rangeInputs = [
+        { id: 'editTitlePosY', valId: 'editTitlePosYVal', suffix: '%', multiplier: 100 },
+        { id: 'editTitlePosX', valId: 'editTitlePosXVal', suffix: '%', multiplier: 100 },
+        { id: 'editTitleSize', valId: 'editTitleSizeVal', suffix: 'px', multiplier: 1 },
+        { id: 'editImgPosY', valId: 'editImgPosYVal', suffix: '%', multiplier: 100 },
+        { id: 'editImgPosX', valId: 'editImgPosXVal', suffix: '%', multiplier: 100 },
+        { id: 'editImgScale', valId: 'editImgScaleVal', suffix: '%', multiplier: 100 },
+        { id: 'editPricePosY', valId: 'editPricePosYVal', suffix: '%', multiplier: 100 },
+        { id: 'editPricePosX', valId: 'editPricePosXVal', suffix: '%', multiplier: 100 },
+        { id: 'editPriceSize', valId: 'editPriceSizeVal', suffix: 'px', multiplier: 1 }
+    ];
+    rangeInputs.forEach(({ id, valId, suffix, multiplier }) => {
+        const input = document.getElementById(id);
+        const valSpan = document.getElementById(valId);
+        if (input && valSpan) {
+            input.addEventListener('input', () => {
+                valSpan.textContent = Math.round(parseFloat(input.value) * multiplier) + suffix;
+            });
+        }
+    });
+    
+    // ===== Size option active class toggling =====
+    document.querySelectorAll('input[name="editSize"]').forEach(radio => {
+        radio.addEventListener('change', () => {
+            document.querySelectorAll('.edit-size-option').forEach(opt => opt.classList.remove('active'));
+            radio.closest('.edit-size-option')?.classList.add('active');
+        });
+    });
+    
+    // ===== Color swatch active class toggling =====
+    document.querySelectorAll('input[name="editColor"]').forEach(radio => {
+        radio.addEventListener('change', () => {
+            document.querySelectorAll('.edit-color-swatch').forEach(sw => sw.classList.remove('active'));
+            radio.closest('.edit-color-swatch')?.classList.add('active');
+        });
+    });
+    
+    // ===== Custom color picker syncs to editColor =====
+    const customColorInput = document.getElementById('editCustomColor');
+    if (customColorInput) {
+        customColorInput.addEventListener('input', () => {
+            // Uncheck all editColor radios
+            document.querySelectorAll('input[name="editColor"]').forEach(r => { r.checked = false; });
+            document.querySelectorAll('.edit-color-swatch').forEach(sw => sw.classList.remove('active'));
+            customColorInput.closest('.edit-color-swatch')?.classList.add('active');
+        });
+    }
+    
     function hideResultPage() {
         if (resultPage) {
             resultPage.style.display = 'none';
@@ -1206,6 +1272,61 @@ function populateEditorFields() {
     document.getElementById('editOfferPrice').value = formData.offerPrice;
     document.getElementById('editWhatsapp').value = formData.whatsapp;
     document.getElementById('editCtaText').value = formData.ctaText;
+    
+    // Populate layout sliders from generator.layout
+    if (generator && generator.layout) {
+        const L = generator.layout;
+        const setRange = (id, val, valId, suffix, mult) => {
+            const input = document.getElementById(id);
+            const span = document.getElementById(valId);
+            if (input) input.value = val;
+            if (span) span.textContent = Math.round(val * mult) + suffix;
+        };
+        setRange('editTitlePosY', L.titlePositionY, 'editTitlePosYVal', '%', 100);
+        setRange('editTitlePosX', L.titlePositionX, 'editTitlePosXVal', '%', 100);
+        setRange('editTitleSize', L.titleSize, 'editTitleSizeVal', 'px', 1);
+        setRange('editImgPosY', L.imagePositionY, 'editImgPosYVal', '%', 100);
+        setRange('editImgPosX', L.imagePositionX, 'editImgPosXVal', '%', 100);
+        setRange('editImgScale', L.imageScale, 'editImgScaleVal', '%', 100);
+        setRange('editPricePosY', L.pricePositionY, 'editPricePosYVal', '%', 100);
+        setRange('editPricePosX', L.pricePositionX, 'editPricePosXVal', '%', 100);
+        setRange('editPriceSize', L.priceSize, 'editPriceSizeVal', 'px', 1);
+    }
+    
+    // Populate size selection
+    if (generator) {
+        let currentSize = 'instagram-post';
+        if (generator.width === 1080 && generator.height === 1920) currentSize = 'instagram-story';
+        else if (generator.width === 1200 && generator.height === 630) currentSize = 'facebook-post';
+        else if (generator.width === 1200 && generator.height === 675) currentSize = 'twitter-post';
+        
+        const sizeRadio = document.querySelector(`input[name="editSize"][value="${currentSize}"]`);
+        if (sizeRadio) {
+            sizeRadio.checked = true;
+            document.querySelectorAll('.edit-size-option').forEach(opt => opt.classList.remove('active'));
+            sizeRadio.closest('.edit-size-option')?.classList.add('active');
+        }
+    }
+    
+    // Populate color from current form color selection
+    const currentColor = document.querySelector('input[name="color"]:checked')?.value;
+    if (currentColor) {
+        const colorRadio = document.querySelector(`input[name="editColor"][value="${currentColor}"]`);
+        if (colorRadio) {
+            colorRadio.checked = true;
+            document.querySelectorAll('.edit-color-swatch').forEach(sw => sw.classList.remove('active'));
+            colorRadio.closest('.edit-color-swatch')?.classList.add('active');
+        } else {
+            // Custom color - set the color picker
+            const customPicker = document.getElementById('editCustomColor');
+            if (customPicker) {
+                customPicker.value = currentColor;
+                document.querySelectorAll('input[name="editColor"]').forEach(r => { r.checked = false; });
+                document.querySelectorAll('.edit-color-swatch').forEach(sw => sw.classList.remove('active'));
+                customPicker.closest('.edit-color-swatch')?.classList.add('active');
+            }
+        }
+    }
 }
 
 // Apply editor changes - re-render poster with same background but new text
@@ -1238,19 +1359,92 @@ async function applyEditorChanges() {
         if (document.getElementById('whatsapp')) document.getElementById('whatsapp').value = editedData.whatsapp;
         if (document.getElementById('ctaText')) document.getElementById('ctaText').value = editedData.ctaText;
         
-        // Save the current background image from canvas (first object)
-        const bgDataURL = generator.lastAIBackground || null;
+        // ===== Read layout values from editor sliders =====
+        const editorLayout = {
+            titlePositionY: parseFloat(document.getElementById('editTitlePosY')?.value) || 0.15,
+            titlePositionX: parseFloat(document.getElementById('editTitlePosX')?.value) || 0.5,
+            titleSize: parseInt(document.getElementById('editTitleSize')?.value) || 56,
+            imagePositionY: parseFloat(document.getElementById('editImgPosY')?.value) || 0.48,
+            imagePositionX: parseFloat(document.getElementById('editImgPosX')?.value) || 0.5,
+            imageScale: parseFloat(document.getElementById('editImgScale')?.value) || 0.38,
+            pricePositionY: parseFloat(document.getElementById('editPricePosY')?.value) || 0.72,
+            pricePositionX: parseFloat(document.getElementById('editPricePosX')?.value) || 0.5,
+            priceSize: parseInt(document.getElementById('editPriceSize')?.value) || 52
+        };
+        generator.setLayout(editorLayout);
         
-        // Get all canvas objects - first one is the background
+        // Also sync layout to original form sliders if they exist
+        const layoutMap = {
+            titlePositionY: 'titlePositionY', titlePositionX: 'titlePositionX', titleSize: 'titleSize',
+            imagePositionY: 'imagePositionY', imagePositionX: 'imagePositionX', imageScale: 'imageScale',
+            pricePositionY: 'pricePositionY', pricePositionX: 'pricePositionX', priceSize: 'priceSize'
+        };
+        Object.keys(layoutMap).forEach(key => {
+            const el = document.getElementById(layoutMap[key]);
+            if (el) el.value = editorLayout[key];
+        });
+        
+        // ===== Read size selection =====
+        const selectedSize = document.querySelector('input[name="editSize"]:checked')?.value || 'instagram-post';
+        const oldWidth = generator.width;
+        const oldHeight = generator.height;
+        generator.setSize(selectedSize);
+        // Sync to original form size radio if exists
+        const origSizeRadio = document.querySelector(`input[name="posterSize"][value="${selectedSize}"]`);
+        if (origSizeRadio) origSizeRadio.checked = true;
+        
+        const sizeChanged = (generator.width !== oldWidth || generator.height !== oldHeight);
+        
+        // ===== Read color selection =====
+        const selectedEditColor = document.querySelector('input[name="editColor"]:checked')?.value;
+        const customColor = document.getElementById('editCustomColor')?.value;
+        // Determine the color to use: if an editColor radio is checked use it, otherwise use custom picker
+        const finalColor = selectedEditColor || customColor || '#8B5CF6';
+        
+        // Sync to original form color so getTheme() picks it up
+        // Find or create a matching color radio in original form
+        let origColorRadio = document.querySelector(`input[name="color"][value="${finalColor}"]`);
+        if (origColorRadio) {
+            origColorRadio.checked = true;
+        } else {
+            // Create a hidden radio with the custom color value
+            const existingCustom = document.getElementById('_editorCustomColorRadio');
+            if (existingCustom) existingCustom.remove();
+            const hiddenRadio = document.createElement('input');
+            hiddenRadio.type = 'radio';
+            hiddenRadio.name = 'color';
+            hiddenRadio.value = finalColor;
+            hiddenRadio.checked = true;
+            hiddenRadio.id = '_editorCustomColorRadio';
+            hiddenRadio.style.display = 'none';
+            document.body.appendChild(hiddenRadio);
+        }
+        
+        // Get all canvas objects - keep background (object 0 = image, possibly object 1 = overlay)
         const objects = generator.canvas.getObjects();
-        let bgImage = null;
+        let bgKeepCount = 0;
         if (objects.length > 0 && objects[0].type === 'image') {
-            bgImage = objects[0];
+            bgKeepCount = 1;
+            // If there's an overlay rect right after the bg image, keep it too
+            if (objects.length > 1 && objects[1].type === 'rect' && objects[1].fill && typeof objects[1].fill === 'string' && objects[1].fill.includes('rgba')) {
+                bgKeepCount = 2;
+            }
+        }
+        
+        // If size changed, we need to rescale the background
+        if (sizeChanged && bgKeepCount > 0) {
+            const bgImg = objects[0];
+            const newScale = Math.max(generator.width / bgImg.getOriginalSize().width, generator.height / bgImg.getOriginalSize().height);
+            bgImg.set({ scaleX: newScale, scaleY: newScale });
+            // Update overlay if exists
+            if (bgKeepCount > 1) {
+                objects[1].set({ width: generator.width, height: generator.height });
+            }
         }
         
         // Clear everything except background
         const allObjects = generator.canvas.getObjects().slice();
-        for (let i = allObjects.length - 1; i > 0; i--) {
+        for (let i = allObjects.length - 1; i >= bgKeepCount; i--) {
             generator.canvas.remove(allObjects[i]);
         }
         
@@ -1277,6 +1471,13 @@ async function applyEditorChanges() {
         // Update result canvas preview
         const resultCanvas = document.getElementById('resultCanvas');
         if (resultCanvas && resultCanvas.fabricCanvas) {
+            // Update result canvas dimensions if size changed
+            if (sizeChanged) {
+                resultCanvas.fabricCanvas.setDimensions({
+                    width: generator.width,
+                    height: generator.height
+                });
+            }
             const dataURL = generator.canvas.toDataURL({ format: 'png', quality: 1.0 });
             fabric.Image.fromURL(dataURL, (img) => {
                 resultCanvas.fabricCanvas.clear();

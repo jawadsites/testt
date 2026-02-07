@@ -1502,6 +1502,46 @@
     color: var(--primary) !important;
 }
 
+/* Section Toggle */
+.editor-section-toggle {
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0;
+    margin-bottom: 0;
+    transition: margin 0.3s;
+}
+
+.editor-section-toggle.active {
+    margin-bottom: 1rem;
+}
+
+.editor-section-toggle .toggle-arrow {
+    font-size: 0.75rem;
+    transition: transform 0.3s;
+    color: var(--gray-400);
+}
+
+.editor-section-toggle.active .toggle-arrow {
+    transform: rotate(180deg);
+}
+
+/* Collapsible sections */
+.editor-section {
+    max-height: 1000px;
+    overflow: hidden;
+    transition: max-height 0.35s ease, opacity 0.3s;
+    opacity: 1;
+}
+
+.editor-section.collapsed {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+}
+
 .editor-controls {
     display: flex;
     flex-direction: column;
@@ -1544,10 +1584,178 @@
     box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
 }
 
-#applyEditsBtn {
-    margin-top: 0.5rem;
+select.edit-input {
+    cursor: pointer;
+    appearance: auto;
+}
+
+/* Range Controls */
+.editor-range {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.editor-range label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--gray-600);
+}
+
+.range-row {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.range-row input[type="range"] {
+    flex: 1;
+    height: 6px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: var(--gray-200);
+    border-radius: 3px;
+    outline: none;
+}
+
+.range-row input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--primary);
+    cursor: pointer;
+    border: 2px solid white;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+.range-val {
+    min-width: 42px;
+    text-align: center;
+    font-size: 0.78rem;
     font-weight: 700;
-    font-size: 1rem;
+    color: var(--primary);
+    background: rgba(99, 102, 241, 0.08);
+    padding: 2px 6px;
+    border-radius: 6px;
+}
+
+/* Size Grid */
+.edit-size-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+    margin-top: 0.3rem;
+}
+
+.edit-size-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.15rem;
+    padding: 0.6rem 0.3rem;
+    border: 2px solid var(--gray-200);
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: all 0.2s;
+    background: white;
+    text-align: center;
+}
+
+.edit-size-option input { display: none; }
+
+.edit-size-option i {
+    font-size: 1.1rem;
+    color: var(--gray-400);
+}
+
+.edit-size-option span {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--gray-700);
+}
+
+.edit-size-option small {
+    font-size: 0.65rem;
+    color: var(--gray-400);
+}
+
+.edit-size-option.active,
+.edit-size-option:has(input:checked) {
+    border-color: var(--primary);
+    background: rgba(99, 102, 241, 0.05);
+}
+
+.edit-size-option.active i,
+.edit-size-option:has(input:checked) i {
+    color: var(--primary);
+}
+
+/* Color Swatches */
+.edit-color-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.3rem;
+}
+
+.edit-color-swatch {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+    border: 3px solid transparent;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.edit-color-swatch input[type="radio"] { display: none; }
+.edit-color-swatch input[type="color"] {
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.edit-color-swatch i {
+    color: white;
+    font-size: 0.7rem;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.edit-color-swatch:has(input[type="radio"]:checked) {
+    border-color: var(--gray-800);
+    transform: scale(1.15);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.edit-color-swatch:has(input[type="radio"]:checked) i {
+    opacity: 1;
+}
+
+.edit-color-swatch.custom-picker {
+    background: conic-gradient(red, yellow, lime, aqua, blue, magenta, red);
+}
+
+.edit-color-swatch.custom-picker i {
+    opacity: 1;
+    color: white;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
+
+/* Apply Button - sticky */
+.editor-apply-btn {
+    position: sticky;
+    bottom: 1rem;
+    font-weight: 700;
+    font-size: 1.05rem;
+    box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+    z-index: 10;
 }
 
 @media (max-width: 900px) {
