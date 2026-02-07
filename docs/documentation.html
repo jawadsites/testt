@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دليل استخدام PostMaker AI - نظام إنشاء البوستات بالذكاء الاصطناعي</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            color: #2c3e50;
+            background: #ffffff;
+            padding: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 40px 0;
+            border-bottom: 4px solid #8B5CF6;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            font-size: 42px;
+            color: #8B5CF6;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        
+        .header .subtitle {
+            font-size: 20px;
+            color: #666;
+            margin-top: 10px;
+        }
+        
+        .header .version {
+            display: inline-block;
+            background: #8B5CF6;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-size: 14px;
+            margin-top: 15px;
+        }
+        
+        .section {
+            margin-bottom: 50px;
+            page-break-inside: avoid;
+        }
+        
+        .section-title {
+            font-size: 32px;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .section-title .icon {
+            background: linear-gradient(135deg, #8B5CF6, #6366F1);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+        
+        .subsection {
+            margin: 30px 0;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            border-right: 4px solid #8B5CF6;
+        }
+        
+        .subsection-title {
+            font-size: 24px;
+            color: #8B5CF6;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            font-size: 16px;
+            text-align: justify;
+        }
+        
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .feature-list li {
+            padding: 15px;
+            margin-bottom: 12px;
+            background: white;
+            border-radius: 8px;
+            border-right: 4px solid #10B981;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            font-size: 16px;
+        }
+        
+        .feature-list li strong {
+            color: #10B981;
+            font-size: 18px;
+        }
+        
+        .tech-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 25px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .tech-box h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid rgba(255,255,255,0.3);
+            padding-bottom: 10px;
+        }
+        
+        .tech-box p {
+            font-size: 16px;
+            line-height: 1.8;
+        }
+        
+        .tech-box code {
+            background: rgba(255,255,255,0.2);
+            padding: 3px 10px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+        
+        .info-card {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .info-card h4 {
+            color: #856404;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        
+        .info-card p {
+            color: #856404;
+            margin: 0;
+        }
+        
+        .workflow-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+        
+        .step {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            border-top: 4px solid #8B5CF6;
+            text-align: center;
+        }
+        
+        .step-number {
+            background: #8B5CF6;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: bold;
+            margin: 0 auto 15px;
+        }
+        
+        .step h4 {
+            font-size: 18px;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .step p {
+            font-size: 14px;
+            color: #666;
+            text-align: center;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        
+        table thead {
+            background: #8B5CF6;
+            color: white;
+        }
+        
+        table th {
+            padding: 15px;
+            text-align: right;
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        table td {
+            padding: 15px;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 15px;
+        }
+        
+        table tbody tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .highlight {
+            background: linear-gradient(120deg, #fef08a 0%, #fde68a 100%);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 40px 0;
+            margin-top: 60px;
+            border-top: 2px solid #e0e0e0;
+            color: #666;
+        }
+        
+        .footer p {
+            margin: 10px 0;
+        }
+        
+        @media print {
+            body {
+                padding: 20px;
+            }
+            
+            .section {
+                page-break-inside: avoid;
+            }
+            
+            .tech-box {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎨 PostMaker AI</h1>
+        <p class="subtitle">نظام متقدم لإنشاء البوستات الإعلانية باستخدام الذكاء الاصطناعي</p>
+        <span class="version">الإصدار 2.0 - فبراير 2026</span>
+    </div>
+
+    <!-- مقدمة عن النظام -->
+    <div class="section">
+        <h2 class="section-title">
+            <span class="icon">📋</span>
+            نظرة عامة
+        </h2>
+        <p>
+            PostMaker AI هو نظام متطور لإنشاء البوستات والإعلانات التسويقية بشكل احترافي باستخدام تقنيات الذكاء الاصطناعي المتقدمة.
+            يتميز النظام بقدرته على فهم المحتوى العربي وإنشاء خلفيات ذكية تتناسب مع نوع المنتج ووصفه.
+        </p>
+        <p>
+            يستهدف النظام أصحاب الأنشطة التجارية، المسوقين الرقميين، مصممي السوشيال ميديا، وأي شخص يحتاج لإنشاء محتوى بصري جذاب
+            بسرعة واحترافية دون الحاجة لخبرة في التصميم.
+        </p>
+        
+        <div class="info-card">
+            <h4>💡 لماذا PostMaker AI؟</h4>
+            <p>
+                يوفر النظام الوقت والتكلفة بإنشاء تصاميم احترافية في ثوانٍ معدودة، مع إمكانيات تخصيص كاملة بعد الإنشاء.
+                لا حاجة لمصمم جرافيك أو برامج معقدة - كل شيء متاح في المتصفح!
+            </p>
+        </div>
+    </div>
+
+    <!-- كيف يعمل الذكاء الاصطناعي -->
+    <div class="section">
+        <h2 class="section-title">
+            <span class="icon">🤖</span>
+            كيف يعمل الذكاء الاصطناعي
+        </h2>
+        
+        <div class="tech-box">
+            <h3>⚡ تقنية Flux 1.1 Pro من Replicate</h3>
+            <p>
+                يستخدم النظام نموذج <code>black-forest-labs/flux-1.1-pro</code> وهو أحد أقوى نماذج توليد الصور في العالم.
+                يتميز بسرعة التوليد (3-5 ثواني) وجودة عالية للصور المُنتجة.
+            </p>
+            <p style="margin-top: 15px;">
+                <strong>التكلفة:</strong> $0.04 لكل صورة | <strong>الدقة:</strong> 1080×1080 بكسل | <strong>الجودة:</strong> احترافية
+            </p>
+        </div>
+        
+        <div class="subsection">
+            <h3 class="subsection-title">🧠 كيف يفهم النظام طلبك؟</h3>
+            <p>
+                يقوم الذكاء الاصطناعي بتحليل المدخلات التي تقدمها وتحويلها إلى أوامر (prompts) ذكية لتوليد الخلفية المثالية.
+                يعتمد النظام على ثلاث عوامل رئيسية:
+            </p>
+        </div>
+        
+        <div class="workflow-steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <h4>تصنيف النشاط</h4>
+                <p>يحدد النظام نوع نشاطك (مطعم، كافيه، متجر، إلخ) لفهم السياق العام للتصميم</p>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <h4>اسم المنتج</h4>
+                <p>يحلل اسم المنتج ويستخرج الكلمات المفتاحية مع ترجمة ذكية من العربية للإنجليزية</p>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <h4>الوصف التفصيلي</h4>
+                <p>يستخدم الوصف الإضافي (إن وُجد) لإضافة تفاصيل دقيقة للصورة المُنتجة</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- الترجمة الذكية من العربية -->
+    <div class="section">
+        <h2 class="section-title">
+            <span class="icon">🔤</span>
+            نظام الترجمة الذكية
+        </h2>
+        
+        <div class="subsection">
+            <h3 class="subsection-title">📖 قاموس الترجمة المدمج</h3>
+            <p>
+                يحتوي النظام على قاموس شامل لترجمة المصطلحات العربية إلى الإنجليزية، مما يضمن فهم النموذج للمحتوى العربي بدقة.
+                يشمل القاموس عدة فئات:
+            </p>
+        </div>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>الفئة</th>
+                    <th>أمثلة على المصطلحات</th>
+                    <th>الترجمة</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>الطعام</strong></td>
+                    <td>بيتزا، برغر، برجر، شاورما، فلافل، كنافة، بقلاوة</td>
+                    <td>pizza, burger, shawarma, falafel, kunafa, baklava</td>
+                </tr>
+                <tr>
+                    <td><strong>المشروبات</strong></td>
+                    <td>قهوة، شاي، عصير، كابتشينو، موكا، لاتيه</td>
+                    <td>coffee, tea, juice, cappuccino, mocha, latte</td>
+                </tr>
+                <tr>
+                    <td><strong>الأزياء</strong></td>
+                    <td>فستان، قميص، بنطلون، حذاء، حقيبة، ساعة</td>
+                    <td>dress, shirt, pants, shoes, bag, watch</td>
+                </tr>
+                <tr>
+                    <td><strong>الجمال</strong></td>
+                    <td>عطر، مكياج، كريم، شامبو، صابون</td>
+                    <td>perfume, makeup, cream, shampoo, soap</td>
+                </tr>
+                <tr>
+                    <td><strong>التقنية</strong></td>
+                    <td>موبايل، لابتوب، ايفون، سامسونج، هيدفون</td>
+                    <td>mobile, laptop, iPhone, Samsung, headphones</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div class="info-card">
+            <h4>🎯 مثال عملي</h4>
+            <p>
+                <strong>المدخل:</strong> "برغر لحم بالجبنة الشيدر والصوص الخاص"<br>
+                <strong>ما يفهمه النظام:</strong> "juicy beef burger with melted cheddar cheese and special sauce"<br>
+                <strong>النتيجة:</strong> صورة خلفية واقعية لبرغر شهي مع جبنة ذائبة!
+            </p>
+        </div>
+    </div>
+
+    <!-- معالجة النصوص العربية -->
+    <div class="section">
+        <h2 class="section-title">
+            <span class="icon">✍️</span>
+            معالجة النصوص العربية
+        </h2>
+        
+        <div class="subsection">
+            <h3 class="subsection-title">🔗 نظام ArabicReshaper المتقدم</h3>
+            <p>
+                تواجه تقنية Canvas صعوبة في عرض الحروف العربية بشكل متصل. لحل هذه المشكلة، يستخدم النظام
+                محرك <span class="highlight">ArabicReshaper</span> الذي يحول الأحرف إلى أشكالها المتصلة تلقائياً.
+            </p>
+        </div>
+        
+        <div class="tech-box">
+            <h3>كيف يعمل ArabicReshaper؟</h3>
+            <p><strong>1. تحليل النص:</strong> يقرأ كل حرف ويحدد موقعه (بداية، وسط، نهاية، منفصل)</p>
+            <p><strong>2. التحويل:</strong> يستبدل كل حرف بشكله المناسب من Unicode Presentation Forms</p>
+            <p><strong>3. معالجة التشكيل:</strong> يحافظ على علامات التشكيل (فتحة، ضمة، كسرة) في مواضعها الصحيحة</p>
+            <p><strong>4. عكس الاتجاه:</strong> يعكس النص لعرضه من اليمين لليسار بشكل صحيح</p>
+        </div>
+        
+        <p style="margin-top: 25px;">
+            <strong>النتيجة:</strong> نصوص عربية متصلة وواضحة وسهلة القراءة في جميع التصاميم، مع دعم كامل لجميع
+            الأحرف العربية بما في ذلك اللامات المركبة (لا، لإ، لأ) والتشكيل.
+        </p>
+    </div>
+
+    <!-- ميزات التخصيص -->
+    <div class="section">
+        <h2 class="section-title">
+            <span class="icon">🎨</span>
+            ميزات التخصيص الكاملة
+        </h2>
+        
+        <ul class="feature-list">
+            <li>
+                <strong>🖊️ تحرير النصوص:</strong>
+                قم بتعديل اسم النشاط، اسم المنتج، نص العرض، الأسعار، رقم الواتساب، ونص الزر بعد إنشاء التصميم مباشرة
+            </li>
+            <li>
+                <strong>📐 التحكم في التخطيط (9 أدوات تحكم):</strong>
+                تحكم كامل في موضع وحجم جميع عناصر التصميم - العنوان (Y/X/الحجم)، الصورة (Y/X/المقياس)، السعر (Y/X/الحجم)
+            </li>
+            <li>
+                <strong>📏 أحجام مُعدة مسبقاً (4 أنواع):</strong>
+                انستقرام بوست (1080×1080)، انستقرام ستوري (1080×1920)، فيسبوك بوست (1200×630)، تويتر بوست (1200×675)
+            </li>
+            <li>
+                <strong>🎨 لوحة الألوان (8 خيارات):</strong>
+                7 ألوان جاهزة (بنفسجي، أحمر، ذهبي، أخضر، أزرق، وردي، داكن) + منتقي لون مخصص لألوان غير محدودة
+            </li>
+            <li>
+                <strong>🔄 تحديث فوري:</strong>
+                جميع التعديلات تُطبق فوراً على التصميم مع الحفاظ على الخلفية المُولدة بالذكاء الاصطناعي
+            </li>
+            <li>
+                <strong>💾 تصدير متقدم:</strong>
+                تحميل PNG بجودة عالية، خيارات تصدير متعددة، دعم تنسيقات مختلفة للطباعة والسوشيال ميديا
+            </li>
+        </ul>
+    </div>
+
+    <!-- أمثلة على الاستخدام -->
+    <div class="section">
+        <h2 class="section-title">
+            <span class="icon">💼</span>
+            حالات الاستخدام
+        </h2>
+        
+        <div class="subsection">
+            <h3 class="subsection-title">🍕 مثال 1: مطعم بيتزا</h3>
+            <p><strong>التصنيف:</strong> مطعم</p>
+            <p><strong>اسم المنتج:</strong> بيتزا مارجريتا</p>
+            <p><strong>الوصف:</strong> بيتزا إيطالية أصلية بالموتزاريلا الطازجة والريحان</p>
+            <p><strong>النتيجة:</strong> خلفية AI تُظهر بيتزا شهية بالجبن الذائب والريحان الأخضر</p>
+        </div>
+        
+        <div class="subsection">
+            <h3 class="subsection-title">☕ مثال 2: كافيه</h3>
+            <p><strong>التصنيف:</strong> كافيه</p>
+            <p><strong>اسم المنتج:</strong> لاتيه كراميل</p>
+            <p><strong>الوصف:</strong> قهوة لاتيه مخملية مع صوص الكراميل الفاخر</p>
+            <p><strong>النتيجة:</strong> خلفية AI لفنجان قهوة جميل مع فن اللاتيه والكراميل</p>
+        </div>
+        
+        <div class="subsection">
+            <h3 class="subsection-title">👕 مثال 3: متجر ملابس</h3>
+            <p><strong>التصنيف:</strong> أزياء</p>
+            <p><strong>اسم المنتج:</strong> فستان سهرة</p>
+            <p><strong>الوصف:</strong> فستان سهرة أنيق باللون الأسود مع تطريز ذهبي</p>
+            <p><strong>النتيجة:</strong> خلفية AI راقية تُبرز الفستان بإضاءة احترافية</p>
+        </div>
+    </div>
+
+    <!-- خطوات العمل -->
+    <div class="section">
+        <h2 class="section-title">
+            <span class="icon">📝</span>
+            خطوات الاستخدام
+        </h2>
+        
+        <div class="workflow-steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <h4>اختر التصنيف</h4>
+                <p>حدد نوع نشاطك من 8 تصنيفات متاحة</p>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <h4>أدخل معلومات المنتج</h4>
+                <p>اكتب اسم المنتج ووصفه التفصيلي</p>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <h4>أضف بيانات العرض</h4>
+                <p>املأ السعر الأصلي وسعر العرض وتفاصيل الاتصال</p>
+            </div>
+            <div class="step">
+                <div class="step-number">4</div>
+                <h4>انتظر التوليد</h4>
+                <p>يقوم الذكاء الاصطناعي بإنشاء الخلفية (3-5 ثواني)</p>
+            </div>
+            <div class="step">
+                <div class="step-number">5</div>
+                <h4>خصص التصميم</h4>
+                <p>استخدم محرر ما بعد الإنشاء لتعديل كل شيء</p>
+            </div>
+            <div class="step">
+                <div class="step-number">6</div>
+                <h4>حمّل النتيجة</h4>
+                <p>صدّر التصميم بجودة عالية PNG</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- التقنيات المستخدمة -->
+    <div class="section">
+        <h2 class="section-title">
+            <span class="icon">⚙️</span>
+            التقنيات والأدوات
+        </h2>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>التقنية</th>
+                    <th>الاستخدام</th>
+                    <th>السبب</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Replicate API</strong></td>
+                    <td>توليد الصور بالذكاء الاصطناعي</td>
+                    <td>سرعة عالية، جودة احترافية، تكلفة منخفضة</td>
+                </tr>
+                <tr>
+                    <td><strong>Flux 1.1 Pro</strong></td>
+                    <td>نموذج توليد الصور</td>
+                    <td>أحدث وأقوى نماذج black-forest-labs</td>
+                </tr>
+                <tr>
+                    <td><strong>Fabric.js 5.3.0</strong></td>
+                    <td>رسم التصاميم على Canvas</td>
+                    <td>تحكم كامل في العناصر، سهولة التعديل</td>
+                </tr>
+                <tr>
+                    <td><strong>ArabicReshaper</strong></td>
+                    <td>معالجة النصوص العربية</td>
+                    <td>عرض صحيح للحروف المتصلة</td>
+                </tr>
+                <tr>
+                    <td><strong>Node.js + Express</strong></td>
+                    <td>الخادم الخلفي (Backend)</td>
+                    <td>سرعة، استقرار، سهولة النشر</td>
+                </tr>
+                <tr>
+                    <td><strong>CORS Proxy</strong></td>
+                    <td>تحميل الصور من Replicate</td>
+                    <td>تجاوز قيود المتصفح وتحميل الصور بأمان</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- الميزات الفريدة -->
+    <div class="section">
+        <h2 class="section-title">
+            <span class="icon">✨</span>
+            ما يميز PostMaker AI
+        </h2>
+        
+        <ul class="feature-list">
+            <li>
+                <strong>🇦🇪 دعم كامل للعربية:</strong>
+                أول نظام يفهم المحتوى العربي بدقة ويعالج النصوص بشكل صحيح
+            </li>
+            <li>
+                <strong>⚡ سرعة فائقة:</strong>
+                إنشاء تصميم كامل في 5-10 ثواني فقط من البداية للنهاية
+            </li>
+            <li>
+                <strong>🎯 ذكاء سياقي:</strong>
+                الصور المُولدة تتناسب مع نوع المنتج ووصفه بدقة
+            </li>
+            <li>
+                <strong>🎨 تخصيص لا محدود:</strong>
+                تحكم كامل بعد الإنشاء في 20+ عنصر مختلف
+            </li>
+            <li>
+                <strong>💯 جودة احترافية:</strong>
+                تصاميم بدقة عالية جاهزة للنشر والطباعة
+            </li>
+            <li>
+                <strong>🆓 بدون برامج:</strong>
+                يعمل في المتصفح مباشرة، لا حاجة لتثبيت أي شيء
+            </li>
+        </ul>
+    </div>
+
+    <!-- الخاتمة -->
+    <div class="section">
+        <h2 class="section-title">
+            <span class="icon">🚀</span>
+            الخلاصة
+        </h2>
+        <p>
+            PostMaker AI يمثل نقلة نوعية في مجال إنشاء المحتوى البصري للسوشيال ميديا والإعلانات. 
+            من خلال دمج أحدث تقنيات الذكاء الاصطناعي مع فهم عميق للمحتوى العربي، يوفر النظام حلاً متكاملاً 
+            لجميع احتياجات التصميم.
+        </p>
+        <p>
+            سواء كنت صاحب مطعم تريد الإعلان عن عرض جديد، أو متجر إلكتروني يحتاج لبوستات يومية، 
+            أو مسوق رقمي يبحث عن أدوات سريعة واحترافية - PostMaker AI هو الحل الأمثل.
+        </p>
+        
+        <div class="tech-box" style="margin-top: 30px;">
+            <h3>🎯 ابدأ الآن!</h3>
+            <p>
+                لا تحتاج لخبرة في التصميم أو برامج معقدة. فقط ادخل على النظام، اختر تصنيفك، 
+                اكتب عن منتجك، وشاهد السحر يحدث في ثوانٍ!
+            </p>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p><strong>PostMaker AI</strong> - نظام إنشاء البوستات بالذكاء الاصطناعي</p>
+        <p>الإصدار 2.0 | فبراير 2026</p>
+        <p>مدعوم بتقنية Flux 1.1 Pro من Replicate</p>
+        <p style="margin-top: 20px; color: #8B5CF6; font-weight: 600;">
+            صُنع بـ ❤️ للمحتوى العربي
+        </p>
+    </div>
+</body>
+</html>
