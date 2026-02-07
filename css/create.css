@@ -1492,6 +1492,64 @@
     border-top: 1px solid var(--gray-200);
 }
 
+/* Editor Card Styles */
+.editor-card {
+    border: 2px solid var(--primary-light, #e0e7ff);
+    background: linear-gradient(135deg, #fafbff, #f5f0ff) !important;
+}
+
+.editor-card h3 {
+    color: var(--primary) !important;
+}
+
+.editor-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.editor-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.editor-field label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--gray-600);
+}
+
+.editor-field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+}
+
+.edit-input {
+    width: 100%;
+    padding: 0.55rem 0.75rem;
+    border: 2px solid var(--gray-200);
+    border-radius: var(--radius-lg);
+    font-family: 'Cairo', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: border-color 0.2s;
+    background: white;
+}
+
+.edit-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+#applyEditsBtn {
+    margin-top: 0.5rem;
+    font-weight: 700;
+    font-size: 1rem;
+}
+
 @media (max-width: 900px) {
     .result-page-grid {
         grid-template-columns: 1fr;

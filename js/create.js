@@ -651,14 +651,15 @@ function updatePreview() {
 function collectFormData() {
     return {
         category: selectedCategory,
-        template: selectedTemplate, // Include selected template
+        template: selectedTemplate,
         businessName: document.getElementById('businessName')?.value || '',
         productName: document.getElementById('productName')?.value || '',
         offerText: document.getElementById('offerText')?.value || 'عرض لفترة محدودة',
         originalPrice: document.getElementById('originalPrice')?.value || '',
         offerPrice: document.getElementById('offerPrice')?.value || '',
         whatsapp: document.getElementById('whatsapp')?.value || '',
-        ctaText: document.getElementById('ctaText')?.value || 'اطلب الآن'
+        ctaText: document.getElementById('ctaText')?.value || 'اطلب الآن',
+        additionalDescription: document.getElementById('aiCustomPrompt')?.value || ''
     };
 }
 
@@ -910,10 +911,13 @@ async function startAIGeneration(generateBtn) {
         if (progressBar) progressBar.style.width = '20%';
         
         let bgResult;
-        // Always pass product info for relevant backgrounds
+        // Combine product info + additional description for relevant backgrounds
+        const extraDesc = formData.additionalDescription || '';
+        const fullDescription = [formData.offerText, extraDesc].filter(Boolean).join(' - ');
+        
         const productInfo = {
             productName: formData.productName || '',
-            description: formData.offerText || ''
+            description: fullDescription
         };
         
         if (customPrompt) {
@@ -922,7 +926,7 @@ async function startAIGeneration(generateBtn) {
                 formData.category, 
                 customPrompt,
                 formData.productName,
-                formData.offerText
+                fullDescription
             );
         } else {
             // Use generateBackground with product info for relevant AI images
@@ -1137,6 +1141,9 @@ function showResultModal() {
         });
     }
     
+    // Populate editor fields with current form data
+    populateEditorFields();
+    
     function hideResultPage() {
         if (resultPage) {
             resultPage.style.display = 'none';
@@ -1148,8 +1155,16 @@ function showResultModal() {
     const downloadResultBtn = document.getElementById('downloadBtn');
     if (downloadResultBtn) {
         downloadResultBtn.onclick = () => {
-            const businessName = document.getElementById('businessName')?.value || 'poster';
+            const businessName = document.getElementById('editBusinessName')?.value || document.getElementById('businessName')?.value || 'poster';
             generator.download(businessName.replace(/\s+/g, '_'));
+        };
+    }
+    
+    // Apply edits button
+    const applyEditsBtn = document.getElementById('applyEditsBtn');
+    if (applyEditsBtn) {
+        applyEditsBtn.onclick = async () => {
+            await applyEditorChanges();
         };
     }
     
@@ -1178,6 +1193,105 @@ function showResultModal() {
         backBtn.onclick = () => {
             hideResultPage();
         };
+    }
+}
+
+// Populate editor fields with current values
+function populateEditorFields() {
+    const formData = collectFormData();
+    document.getElementById('editBusinessName').value = formData.businessName;
+    document.getElementById('editProductName').value = formData.productName;
+    document.getElementById('editOfferText').value = formData.offerText;
+    document.getElementById('editOriginalPrice').value = formData.originalPrice;
+    document.getElementById('editOfferPrice').value = formData.offerPrice;
+    document.getElementById('editWhatsapp').value = formData.whatsapp;
+    document.getElementById('editCtaText').value = formData.ctaText;
+}
+
+// Apply editor changes - re-render poster with same background but new text
+async function applyEditorChanges() {
+    const applyBtn = document.getElementById('applyEditsBtn');
+    if (applyBtn) {
+        applyBtn.disabled = true;
+        applyBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري التطبيق...';
+    }
+    
+    try {
+        // Gather edited values
+        const editedData = {
+            category: selectedCategory,
+            businessName: document.getElementById('editBusinessName')?.value || '',
+            productName: document.getElementById('editProductName')?.value || '',
+            offerText: document.getElementById('editOfferText')?.value || '',
+            originalPrice: document.getElementById('editOriginalPrice')?.value || '',
+            offerPrice: document.getElementById('editOfferPrice')?.value || '',
+            whatsapp: document.getElementById('editWhatsapp')?.value || '',
+            ctaText: document.getElementById('editCtaText')?.value || 'اطلب الآن'
+        };
+        
+        // Also update the main form fields so download uses correct name
+        if (document.getElementById('businessName')) document.getElementById('businessName').value = editedData.businessName;
+        if (document.getElementById('productName')) document.getElementById('productName').value = editedData.productName;
+        if (document.getElementById('offerText')) document.getElementById('offerText').value = editedData.offerText;
+        if (document.getElementById('originalPrice')) document.getElementById('originalPrice').value = editedData.originalPrice;
+        if (document.getElementById('offerPrice')) document.getElementById('offerPrice').value = editedData.offerPrice;
+        if (document.getElementById('whatsapp')) document.getElementById('whatsapp').value = editedData.whatsapp;
+        if (document.getElementById('ctaText')) document.getElementById('ctaText').value = editedData.ctaText;
+        
+        // Save the current background image from canvas (first object)
+        const bgDataURL = generator.lastAIBackground || null;
+        
+        // Get all canvas objects - first one is the background
+        const objects = generator.canvas.getObjects();
+        let bgImage = null;
+        if (objects.length > 0 && objects[0].type === 'image') {
+            bgImage = objects[0];
+        }
+        
+        // Clear everything except background
+        const allObjects = generator.canvas.getObjects().slice();
+        for (let i = allObjects.length - 1; i > 0; i--) {
+            generator.canvas.remove(allObjects[i]);
+        }
+        
+        // Update data in generator
+        generator.setData(editedData);
+        
+        // Re-draw all text layers on top of existing background
+        const theme = generator.getTheme();
+        generator.drawBusinessName(theme);
+        
+        if (generator.uploadedImage) {
+            await generator.drawProductImage(theme);
+        }
+        
+        generator.drawProductSection(theme);
+        generator.drawPriceBadge(theme);
+        generator.drawOfferBanner(theme);
+        generator.drawContactSection(theme);
+        generator.drawCTAButton(theme);
+        generator.drawDecorativeElements(theme);
+        
+        generator.canvas.renderAll();
+        
+        // Update result canvas preview
+        const resultCanvas = document.getElementById('resultCanvas');
+        if (resultCanvas && resultCanvas.fabricCanvas) {
+            const dataURL = generator.canvas.toDataURL({ format: 'png', quality: 1.0 });
+            fabric.Image.fromURL(dataURL, (img) => {
+                resultCanvas.fabricCanvas.clear();
+                resultCanvas.fabricCanvas.add(img);
+                resultCanvas.fabricCanvas.renderAll();
+            });
+        }
+    } catch (error) {
+        console.error('Error applying edits:', error);
+        alert('حدث خطأ أثناء تطبيق التعديلات');
+    } finally {
+        if (applyBtn) {
+            applyBtn.disabled = false;
+            applyBtn.innerHTML = '<i class="fas fa-sync-alt"></i> تطبيق التعديلات';
+        }
     }
 }
 
